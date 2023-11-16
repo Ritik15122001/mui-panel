@@ -48,6 +48,7 @@ import {
   IconBorderStyle2,
   IconAppWindow,
   IconLockAccess,
+  IconHome,
 } from '@tabler/icons';
 
 import { uniqueId } from 'lodash';
@@ -78,6 +79,22 @@ const Menuitems = [
   },
   {
     id: uniqueId(),
+    title: 'Home',
+    icon: IconHome,
+    // chip: '2',
+    chipColor: 'secondary',
+    href: '/apps/contacts',
+    children: [
+      {
+        id: uniqueId(),
+        title: 'Add carousel',
+        icon: IconPoint,
+        href: '/apps/blog/add',
+      },
+    ],
+  },
+  {
+    id: uniqueId(),
     title: 'Contacts',
     icon: IconPackage,
     chip: '2',
@@ -93,6 +110,12 @@ const Menuitems = [
     children: [
       {
         id: uniqueId(),
+        title: 'Add',
+        icon: IconPoint,
+        href: '/apps/blog/add',
+      },
+      {
+        id: uniqueId(),
         title: 'Posts',
         icon: IconPoint,
         href: '/apps/blog/posts',
@@ -105,6 +128,33 @@ const Menuitems = [
       },
     ],
   },
+  {
+    id: uniqueId(),
+    title: 'Services',
+    icon: IconSettings,
+    href: '/apps/services/',
+    children: [
+      {
+        id: uniqueId(),
+        title: 'Add',
+        icon: IconPoint,
+        href: '/apps/services/add',
+      },
+      // {
+      //   id: uniqueId(),
+      //   title: 'Posts',
+      //   icon: IconPoint,
+      //   href: '/apps/blog/posts',
+      // },
+      // {
+      //   id: uniqueId(),
+      //   title: 'Detail',
+      //   icon: IconPoint,
+      //   href: '/apps/blog/detail/streaming-video-way-before-it-was-cool-go-dark-tomorrow',
+      // },
+    ],
+  },
+
   {
     id: uniqueId(),
     title: 'Ecommerce',

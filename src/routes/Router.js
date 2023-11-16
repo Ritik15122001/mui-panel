@@ -2,6 +2,8 @@ import React, { lazy } from 'react';
 import { Navigate } from 'react-router-dom';
 
 import Loadable from '../layouts/full/shared/loadable/Loadable';
+import AddBlog from '../views/apps/blog/AddBlog';
+import AddServices from '../views/apps/services/AddServices';
 
 /* ***Layouts**** */
 const FullLayout = Loadable(lazy(() => import('../layouts/full/FullLayout')));
@@ -128,8 +130,10 @@ const Router = [
       { path: '/apps/tickets', element: <Tickets /> },
       { path: '/apps/contacts', element: <Contacts /> },
       { path: '/apps/ecommerce/shop', element: <Ecommerce /> },
+      { path: '/apps/blog/add', element: <AddBlog /> },
       { path: '/apps/blog/posts', element: <Blog /> },
       { path: '/apps/blog/detail/:id', element: <BlogDetail /> },
+      { path: '/apps/services/add', element: <AddServices /> },
       { path: '/apps/ecommerce/eco-product-list', element: <EcomProductList /> },
       { path: '/apps/ecommerce/eco-checkout', element: <EcomProductCheckout /> },
       { path: '/apps/ecommerce/detail/:id', element: <EcommerceDetail /> },

@@ -5,6 +5,7 @@ import RTL from './layouts/full/shared/customizer/RTL';
 import ScrollToTop from './components/shared/ScrollToTop';
 import Router from './routes/Router';
 import { CssBaseline, ThemeProvider } from '@mui/material';
+import { db } from './firebase';
 
 function App() {
   const routing = useRoutes(Router);
@@ -21,4 +22,4 @@ function App() {
   );
 }
 
-export default App
+export default App;

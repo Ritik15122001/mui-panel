@@ -11,7 +11,7 @@ import {
   Grid,
 } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
-import { addContact } from '../../../store/apps/contacts/ContactSlice';
+import { addContact, addNewContact } from '../../../store/apps/contacts/ContactSlice';
 import user1 from '../../../assets/images/profile/user-1.jpg';
 
 const ContactAdd = () => {
@@ -36,6 +36,18 @@ const ContactAdd = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    dispatch(
+      addNewContact({
+        firstname: values.firstname,
+        lastName: values.lastname,
+        department: values.department,
+        company: values.company,
+        phone: values.phone,
+        email: values.email,
+        address: values.address,
+        notes: values.notes,
+      }),
+    );
     dispatch(
       addContact(
         id,

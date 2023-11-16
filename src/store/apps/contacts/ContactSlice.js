@@ -1,6 +1,7 @@
+import { getDatabase, ref, child, push, update } from 'firebase/database';
 import axios from '../../../utils/axios';
-import { createSlice } from '@reduxjs/toolkit';
-
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { addToFirebase, db } from '../../../firebase';
 const API_URL = '/api/data/contacts/ContactsData';
 
 const initialState = {
@@ -10,6 +11,12 @@ const initialState = {
   editContact: false,
   currentFilter: 'show_all',
 };
+
+export const addNewContact = createAsyncThunk('firebase/contacts', async (data) => {
+  addToFirebase('contacts', data)
+    .then((res) => console.log('success-->', res))
+    .catch((err) => console.log(err));
+});
 
 export const ContactSlice = createSlice({
   name: 'contacts',
