@@ -83,13 +83,13 @@ const Menuitems = [
     icon: IconHome,
     // chip: '2',
     chipColor: 'secondary',
-    href: '/apps/contacts',
+    href: '/apps/home',
     children: [
       {
         id: uniqueId(),
         title: 'Add carousel',
         icon: IconPoint,
-        href: '/apps/blog/add',
+        href: '/apps/home/add',
       },
     ],
   },

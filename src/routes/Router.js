@@ -4,6 +4,7 @@ import { Navigate } from 'react-router-dom';
 import Loadable from '../layouts/full/shared/loadable/Loadable';
 import AddBlog from '../views/apps/blog/AddBlog';
 import AddServices from '../views/apps/services/AddServices';
+import AddHome from '../views/apps/home/AddHome';
 
 /* ***Layouts**** */
 const FullLayout = Loadable(lazy(() => import('../layouts/full/FullLayout')));
@@ -130,6 +131,7 @@ const Router = [
       { path: '/apps/tickets', element: <Tickets /> },
       { path: '/apps/contacts', element: <Contacts /> },
       { path: '/apps/ecommerce/shop', element: <Ecommerce /> },
+      { path: '/apps/home/add', element: <AddHome /> },
       { path: '/apps/blog/add', element: <AddBlog /> },
       { path: '/apps/blog/posts', element: <Blog /> },
       { path: '/apps/blog/detail/:id', element: <BlogDetail /> },
