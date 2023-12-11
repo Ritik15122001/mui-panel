@@ -26,6 +26,8 @@ import Breadcrumb from '../../../layouts/full/shared/breadcrumb/Breadcrumb';
 // import Breadcrumb from '../../layouts/full/shared/breadcrumb/Breadcrumb';
 // import PageContainer from '../../../components/container/PageContainer';
 import PageContainer from '../../../components/container/PageContainer';
+import DeleteIcon from '@mui/icons-material/Delete';
+
 
 import img1 from '../../../assets/images/profile/user-1.jpg';
 import img2 from '../../../assets/images/profile/user-2.jpg';
@@ -34,7 +36,7 @@ import img4 from '../../../assets/images/profile/user-4.jpg';
 import img5 from '../../../assets/images/profile/user-5.jpg';
 import ParentCard from '../../../components/shared/ParentCard';
 import { Stack } from '@mui/system';
-import { readFirebase } from '../../../firebase';
+import { readFirebase, removeFromFirebase } from '../../../firebase';
 import { ModeEditOutlined, VisibilityOutlined } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 
@@ -151,6 +153,17 @@ const ViewHome = () => {
     setPage(newPage);
   };
 
+  const handledelete = (row) => {
+    const del = rows.find(item => row.key === item.key)
+    console.log(del)
+
+    removeFromFirebase(`home/${del.key}`).then((res) => {
+      alert('Delete  successfully');
+      valueDataBase()
+    });
+
+  };
+
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
@@ -218,6 +231,14 @@ const ViewHome = () => {
                           onClick={() => handleUpdate(row)}
                         >
                           <ModeEditOutlined />
+                        </button>
+
+                        <button
+                          className="btn button"
+                          style={{ border: 'none', backgroundColor: 'white', cursor: 'pointer' }}
+                          onClick={() => handledelete(row)}
+                        >
+                          <DeleteIcon />
                         </button>
                       </Typography>
                     </TableCell>

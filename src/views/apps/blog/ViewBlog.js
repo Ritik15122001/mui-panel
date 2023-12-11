@@ -42,6 +42,8 @@ import { Stack } from '@mui/system';
 import { readFirebase } from '../../../firebase';
 import { ModeEditOutlined, VisibilityOutlined } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { removeFromFirebase } from '../../../firebase';
 
 function TablePaginationActions(props) {
   const theme = useTheme();
@@ -217,6 +219,16 @@ const ViewBlog = () => {
     setShowDes(des);
     setOpenDialog(true);
   };
+  const handledelete = (row) => {
+    const del = rows.find(item => row.key === item.key)
+    console.log(del)
+
+    removeFromFirebase(`blogs/${del.key}`).then((res) => {
+      alert('Delete  successfully');
+      valueDataBase()
+    });
+
+  };
   return (
     <PageContainer title="Blogs">
       {/* breadcrumb */}
@@ -288,6 +300,14 @@ const ViewBlog = () => {
                         >
                           <ModeEditOutlined />
                         </button>
+                        <button
+                          className="btn button"
+                          style={{ border: 'none', backgroundColor: 'white', cursor: 'pointer' }}
+                          onClick={() => handledelete(row)}
+                        >
+                          <DeleteIcon />
+                        </button>
+
                       </Typography>
                     </TableCell>
                     {/* <TableCell>

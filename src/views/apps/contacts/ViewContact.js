@@ -41,10 +41,11 @@ import ParentCard from '../../../components/shared/ParentCard';
 import { Stack } from '@mui/system';
 import { readFirebase } from '../../../firebase';
 import { ModeEditOutlined, VisibilityOutlined } from '@mui/icons-material';
+import { removeFromFirebase } from '../../../firebase';
 
 import UpdateContact from '../../../components/apps/contacts/UpdateContact';
 import { useNavigate } from 'react-router-dom';
-
+import DeleteIcon from '@mui/icons-material/Delete';
 function TablePaginationActions(props) {
   const theme = useTheme();
   const { count, page, rowsPerPage, onPageChange } = props;
@@ -166,6 +167,16 @@ const ViewContact = () => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
+  const handledelete = (row) => {
+    const del = rows.find(item => row.key === item.key)
+    console.log(del)
+
+    removeFromFirebase(`contact/${del.key}`).then((res) => {
+      alert('Delete  successfully');
+      valueDataBase()
+    });
+
+  };
   const valueDataBase = async () => {
     try {
       const result = await readFirebase('contact');
@@ -232,6 +243,13 @@ const ViewContact = () => {
                           onClick={() => handleUpdate(row)}
                         >
                           <ModeEditOutlined />
+                        </button>
+                        <button
+                          className="btn button"
+                          style={{ border: 'none', backgroundColor: 'white', cursor: 'pointer' }}
+                          onClick={() => handledelete(row)}
+                        >
+                          <DeleteIcon />
                         </button>
                       </Typography>
                     </TableCell>

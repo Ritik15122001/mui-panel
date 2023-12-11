@@ -38,6 +38,8 @@ import img3 from '../../../assets/images/profile/user-3.jpg';
 import img4 from '../../../assets/images/profile/user-4.jpg';
 import img5 from '../../../assets/images/profile/user-5.jpg';
 import ParentCard from '../../../components/shared/ParentCard';
+import { removeFromFirebase } from '../../../firebase';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { Stack } from '@mui/system';
 import { readFirebase } from '../../../firebase';
 import { ModeEditOutlined, VisibilityOutlined } from '@mui/icons-material';
@@ -62,6 +64,7 @@ function TablePaginationActions(props) {
   const handleLastPageButtonClick = (event) => {
     onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
   };
+
 
   return (
     <Box sx={{ flexShrink: 0, ml: 2.5 }}>
@@ -182,6 +185,17 @@ const ViewServices = () => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
+
+  const handledelete = (row) => {
+    const del = rows.find(item => row.key === item.key)
+    console.log(del)
+
+    removeFromFirebase(`services/${del.key}`).then((res) => {
+      alert('Delete  successfully');
+      valueDataBase()
+    });
+
+  };
   const valueDataBase = async () => {
     try {
       const result = await readFirebase('services');
@@ -264,6 +278,13 @@ const ViewServices = () => {
                           onClick={() => handleUpdate(row)}
                         >
                           <ModeEditOutlined />
+                        </button>
+                        <button
+                          className="btn button"
+                          style={{ border: 'none', backgroundColor: 'white', cursor: 'pointer' }}
+                          onClick={() => handledelete(row)}
+                        >
+                          <DeleteIcon />
                         </button>
                       </Typography>
                     </TableCell>

@@ -42,6 +42,8 @@ import { Stack } from '@mui/system';
 import { readFirebase } from '../../../firebase';
 import { ModeEditOutlined, VisibilityOutlined } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
+import { removeFromFirebase } from '../../../firebase';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 function TablePaginationActions(props) {
   const theme = useTheme();
@@ -169,7 +171,16 @@ const ViewAbout = () => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
+  const handledelete = (row) => {
+    const del = rows.find(item => row.key === item.key)
+    console.log(del)
 
+    removeFromFirebase(`about/${del.key}`).then((res) => {
+      alert('Delete  successfully');
+      valueDataBase()
+    });
+
+  };
   const valueDataBase = async () => {
     try {
       const result = await readFirebase('about');
@@ -242,6 +253,13 @@ const ViewAbout = () => {
                         >
                           <ModeEditOutlined />
                         </button>
+                        <button
+                          className="btn button"
+                          style={{ border: 'none', backgroundColor: 'white', cursor: 'pointer' }}
+                          onClick={() => handledelete(row)}
+                        >
+                          <DeleteIcon />
+                        </button>
                       </Typography>
                     </TableCell>
                     {/* <TableCell>
@@ -265,6 +283,7 @@ const ViewAbout = () => {
                         >
                           View
                         </Button>
+
                       </Typography>
                     </TableCell>
                   </TableRow>

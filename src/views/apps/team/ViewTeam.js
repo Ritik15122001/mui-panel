@@ -30,6 +30,8 @@ import Breadcrumb from '../../../layouts/full/shared/breadcrumb/Breadcrumb';
 // import Breadcrumb from '../../layouts/full/shared/breadcrumb/Breadcrumb';
 // import PageContainer from '../../../components/container/PageContainer';
 import PageContainer from '../../../components/container/PageContainer';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { removeFromFirebase } from '../../../firebase';
 
 import img1 from '../../../assets/images/profile/user-1.jpg';
 import img2 from '../../../assets/images/profile/user-2.jpg';
@@ -61,6 +63,7 @@ function TablePaginationActions(props) {
   const handleLastPageButtonClick = (event) => {
     onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
   };
+
 
   return (
     <Box sx={{ flexShrink: 0, ml: 2.5 }}>
@@ -177,6 +180,16 @@ const ViewTeam = () => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
+  const handledelete = (row) => {
+    const del = rows.find(item => row.key === item.key)
+    console.log(del)
+
+    removeFromFirebase(`team/${del.key}`).then((res) => {
+      alert('Delete  successfully');
+      valueDataBase()
+    });
+
+  };
   const valueDataBase = async () => {
     try {
       const result = await readFirebase('team');
@@ -262,6 +275,13 @@ const ViewTeam = () => {
                           onClick={() => handleUpdate(row)}
                         >
                           <ModeEditOutlined />
+                        </button>
+                        <button
+                          className="btn button"
+                          style={{ border: 'none', backgroundColor: 'white', cursor: 'pointer' }}
+                          onClick={() => handledelete(row)}
+                        >
+                          <DeleteIcon />
                         </button>
                       </Typography>
                     </TableCell>
