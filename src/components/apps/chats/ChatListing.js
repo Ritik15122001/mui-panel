@@ -69,7 +69,7 @@ const ChatListing = () => {
   return (
     <div>
       {/* ------------------------------------------- */}
-      {/* Profile */}
+      Profile
       {/* ------------------------------------------- */}
       <Box display={'flex'} alignItems="center" gap="10px" p={3}>
         <Badge

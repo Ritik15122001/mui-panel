@@ -14,7 +14,7 @@ const initialState = {
 
 export const addNewContact = createAsyncThunk('firebase/contacts', async (data) => {
   addToFirebase('contacts', data)
-    .then((res) => console.log('success-->', res))
+    .then((res) => console.log('success-->'))
     .catch((err) => console.log(err));
 });
 

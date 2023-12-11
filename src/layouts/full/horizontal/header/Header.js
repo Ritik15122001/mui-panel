@@ -29,7 +29,11 @@ const Header = () => {
       minHeight: customizer.TopbarHeight,
     },
   }));
-  const ToolbarStyled = styled(Toolbar)(({theme}) => ({ margin: '0 auto', width: '100%', color: `${theme.palette.text.secondary} !important`, }));
+  const ToolbarStyled = styled(Toolbar)(({ theme }) => ({
+    margin: '0 auto',
+    width: '100%',
+    color: `${theme.palette.text.secondary} !important`,
+  }));
 
   return (
     <AppBarStyled position="sticky" color="default" elevation={8}>
@@ -38,9 +42,7 @@ const Header = () => {
           maxWidth: customizer.isLayout === 'boxed' ? 'lg' : '100%!important',
         }}
       >
-        <Box sx={{ width: lgDown ? '45px' : 'auto', overflow: 'hidden' }}>
-          <Logo />
-        </Box>
+        <Box sx={{ width: lgDown ? '45px' : 'auto', overflow: 'hidden' }}>{/* <Logo /> */}</Box>
         {/* ------------------------------------------- */}
         {/* Toggle Button Sidebar */}
         {/* ------------------------------------------- */}
@@ -58,7 +60,7 @@ const Header = () => {
         {/* ------------------------------------------- */}
         {/* Search Dropdown */}
         {/* ------------------------------------------- */}
-        <Search />
+        {/* <Search /> */}
         {lgUp ? (
           <>
             <Navigation />
@@ -66,11 +68,11 @@ const Header = () => {
         ) : null}
         <Box flexGrow={1} />
         <Stack spacing={1} direction="row" alignItems="center">
-          <Language />
+          {/* <Language /> */}
           {/* ------------------------------------------- */}
           {/* Ecommerce Dropdown */}
           {/* ------------------------------------------- */}
-          <Cart />
+          {/* <Cart /> */}
           {/* ------------------------------------------- */}
           {/* End Ecommerce Dropdown */}
           {/* ------------------------------------------- */}

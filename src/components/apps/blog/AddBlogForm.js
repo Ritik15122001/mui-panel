@@ -23,7 +23,9 @@ const AddBlogForm = () => {
   const authorRef = useRef();
   const [blogDate, setBlogDate] = useState('');
   const [blogImage, setBlogImage] = useState('');
+  const [authorImage, setAuthorImage] = useState('');
   const [quillText, setQuillText] = useState('');
+  const [authorQuillText, setAuthorQuillText] = useState('');
   const [selectedTags, setSelectedTags] = useState([]);
 
   // const getbase64 = (file) => {
@@ -65,6 +67,31 @@ const AddBlogForm = () => {
     // });
     // setSelectedImage(URL.createObjectURL(e.target.files[0]));
   };
+  const handleChooseAuthorImage = async (e) => {
+    try {
+      const imagesURL = await uploadImageToFirebase('authorImages', e.target.files[0]);
+
+      setAuthorImage({
+        name: e.target.files[0].name,
+        type: e.target.files[0].type,
+        size: e.target.files[0].size,
+        url: imagesURL,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+
+    // console.log(e.target.files[0]);
+    // const imgUrl = e.target.files[0];
+    // const url = await getbase64(e.target.files[0]);
+    // setBlogImage({
+    //   name: e.target.files[0].name,
+    //   type: e.target.files[0].type,
+    //   size: e.target.files[0].size,
+    //   url,
+    // });
+    // setSelectedImage(URL.createObjectURL(e.target.files[0]));
+  };
 
   const handleSubmit = () => {
     const title = titleRef.current.value;
@@ -83,17 +110,21 @@ const AddBlogForm = () => {
         blogDate,
         comments: [],
         blogImage,
+        authorImage,
         description: quillText,
+        authorDescription: authorQuillText,
         tags: selectedTags,
       };
 
-      console.log(data);
+      // console.log(data);
 
       addToFirebase('blogs', data).then((res) => {
         alert('Blog posted successfully');
         titleRef.current.value = '';
         authorRef.current.value = '';
         setQuillText('');
+        setAuthorImage('');
+        setAuthorQuillText('');
         setCategory('');
         setBlogImage('');
         setBlogDate(null);
@@ -141,12 +172,7 @@ const AddBlogForm = () => {
         </Grid>
 
         {/* 3 */}
-        <Grid item xs={12} display="flex" alignItems="center">
-          <CustomFormLabel htmlFor="bl-email">Author</CustomFormLabel>
-        </Grid>
-        <Grid item xs={12}>
-          <CustomTextField id="bl-author" placeholder="John Deo" fullWidth inputRef={authorRef} />
-        </Grid>
+
         {/* 4 */}
         <Grid item xs={12} display="flex" alignItems="center">
           <CustomFormLabel htmlFor="bl-phone">Date</CustomFormLabel>
@@ -211,6 +237,45 @@ const AddBlogForm = () => {
             onChange={(e, value) => setSelectedTags(value)}
             renderInput={(params) => <CustomTextField {...params} placeholder="Add your tags..." />}
           />
+        </Grid>
+        <Grid item xs={12} display="flex" alignItems="center">
+          <CustomFormLabel htmlFor="bl-author">Author name</CustomFormLabel>
+        </Grid>
+        <Grid item xs={12}>
+          <CustomTextField id="bl-author" inputRef={authorRef} placeholder="John Deo" fullWidth />
+        </Grid>
+        <Grid item xs={12} display="flex" alignItems="center">
+          <CustomFormLabel htmlFor="bl-message">Author Image</CustomFormLabel>
+        </Grid>
+
+        <Grid item xs={12}>
+          <CustomTextField id="bl-image" type="file" fullWidth onChange={handleChooseAuthorImage} />
+          {/* <Button onClick={async () => console.log(await uploadImageToFirebase(blogImage))}>
+            Upload
+          </Button> */}
+        </Grid>
+        <Grid item xs={12}>
+          {authorImage && authorImage.url && (
+            <img
+              src={authorImage.url}
+              width={200}
+              height={200}
+              style={{ objectFit: 'contain' }}
+              loading="lazy"
+            />
+          )}
+        </Grid>
+        <Grid item xs={12} display="flex" alignItems="center">
+          <CustomFormLabel htmlFor="bl-description">Author Description</CustomFormLabel>
+        </Grid>
+        <Grid item xs={12}>
+          <Paper variant="outlined">
+            <ReactQuill
+              value={authorQuillText}
+              onChange={(value) => setAuthorQuillText(value)}
+              placeholder="Description"
+            />
+          </Paper>
         </Grid>
 
         <Grid item xs={12} mt={3}>

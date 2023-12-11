@@ -73,7 +73,9 @@ const AccountTab = () => {
             <Typography variant="h5" mb={1}>
               Change Profile
             </Typography>
-            <Typography color="textSecondary" mb={3}>Change your profile picture from here</Typography>
+            <Typography color="textSecondary" mb={3}>
+              Change your profile picture from here
+            </Typography>
             <Box textAlign="center" display="flex" justifyContent="center">
               <Box>
                 <Avatar
@@ -105,7 +107,9 @@ const AccountTab = () => {
             <Typography variant="h5" mb={1}>
               Change Password
             </Typography>
-            <Typography color="textSecondary" mb={3}>To change your password please confirm here</Typography>
+            <Typography color="textSecondary" mb={3}>
+              To change your password please confirm here
+            </Typography>
             <form>
               <CustomFormLabel
                 sx={{
@@ -151,7 +155,9 @@ const AccountTab = () => {
             <Typography variant="h5" mb={1}>
               Personal Details
             </Typography>
-            <Typography color="textSecondary" mb={3}>To change your personal detail , edit and save from here</Typography>
+            <Typography color="textSecondary" mb={3}>
+              To change your personal detail , edit and save from here
+            </Typography>
             <form>
               <Grid container spacing={3}>
                 <Grid item xs={12} sm={6}>
@@ -247,7 +253,7 @@ const AccountTab = () => {
                   </CustomFormLabel>
                   <CustomTextField
                     id="text-email"
-                    value="info@modernize.com"
+                    value="info@genuineeffect.com"
                     variant="outlined"
                     fullWidth
                   />

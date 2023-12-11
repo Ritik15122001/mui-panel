@@ -16,17 +16,17 @@ import Welcome from 'src/layouts/full/shared/welcome/Welcome';
 const Modern = () => {
   return (
     <Box>
-      <Grid container spacing={3}>
-        {/* column */}
-        <Grid item sm={12} lg={12}>
-          <TopCards />
-        </Grid>
-        {/* column */}
-        <Grid item xs={12} lg={8}>
+      {/* <Grid container spacing={3}> */}
+      {/* column */}
+      <Grid item sm={12} lg={12}>
+        <TopCards />
+      </Grid>
+      {/* column */}
+      {/* <Grid item xs={12} lg={8}>
           <RevenueUpdates />
-        </Grid>
-        {/* column */}
-        <Grid item xs={12} lg={4}>
+        </Grid> */}
+      {/* column */}
+      {/* <Grid item xs={12} lg={4}>
           <Grid container spacing={3}>
             <Grid item xs={12} sm={6} lg={12}>
               <YearlyBreakup />
@@ -35,13 +35,13 @@ const Modern = () => {
               <MonthlyEarnings />
             </Grid>
           </Grid>
-        </Grid>
-        {/* column */}
-        <Grid item xs={12} lg={4}>
+        </Grid> */}
+      {/* column */}
+      {/* <Grid item xs={12} lg={4}>
           <EmployeeSalary />
-        </Grid>
-        {/* column */}
-        <Grid item xs={12} lg={4}>
+        </Grid> */}
+      {/* column */}
+      {/* <Grid item xs={12} lg={4}>
           <Grid container spacing={3}>
             <Grid item xs={12} sm={6}>
               <Customers />
@@ -53,20 +53,20 @@ const Modern = () => {
               <Social />
             </Grid>
           </Grid>
-        </Grid>
-        {/* column */}
-        <Grid item xs={12} lg={4}>
+        </Grid> */}
+      {/* column */}
+      {/* <Grid item xs={12} lg={4}>
           <SellingProducts />
         </Grid>
-        {/* column */}
+        column
         <Grid item xs={12} lg={4}>
           <WeeklyStats />
         </Grid>
-        {/* column */}
+        column
         <Grid item xs={12} lg={8}>
           <TopPerformers />
-        </Grid>
-      </Grid>
+        </Grid> */}
+      {/* </Grid> */}
       {/* column */}
       <Welcome />
     </Box>

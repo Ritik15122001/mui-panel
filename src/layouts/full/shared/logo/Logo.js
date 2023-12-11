@@ -17,28 +17,26 @@ const Logo = () => {
 
   if (customizer.activeDir === 'ltr') {
     return (
-      <LinkStyled to="/" style={{
-        display: 'flex',
-        alignItems: 'center',
-      }}>
-        {customizer.activeMode === 'dark' ? (
-          <LogoLight />
-        ) : (
-          <LogoDark />
-        )}
+      <LinkStyled
+        // to="/dashboard"
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+        }}
+      >
+        {customizer.activeMode === 'dark' ? <h2>Genuine Effect</h2> : <h2>Genuine Effect</h2>}
       </LinkStyled>
     );
   }
   return (
-    <LinkStyled to="/" style={{
-      display: 'flex',
-      alignItems: 'center',
-    }}>
-      {customizer.activeMode === 'dark' ? (
-        <LogoDarkRTL />
-      ) : (
-        <LogoLightRTL />
-      )}
+    <LinkStyled
+      // to="/dashboard"
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+      }}
+    >
+      {customizer.activeMode === 'dark' ? <h2>Genuine Effect</h2> : <h2>Genuine Effect</h2>}
     </LinkStyled>
   );
 };

@@ -25,7 +25,7 @@ const AddToCart = () => {
 
   // Get Products
   const Cartproduct = useSelector((state) => state.ecommerceReducer.cart);
-  console.log(Cartproduct);
+  // console.log(Cartproduct);
   const Increase = (productId) => {
     dispatch(increment(productId));
   };

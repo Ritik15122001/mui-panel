@@ -1,30 +1,30 @@
 import React from 'react';
 import { List, ListItem, ListItemIcon, ListItemText, Paper, ListSubheader } from '@mui/material';
 
-import { IconWifi, IconBluetooth } from "@tabler/icons";
+import { IconWifi, IconBluetooth } from '@tabler/icons';
 
-import CustomSwitch from "../../forms/theme-elements/CustomSwitch";
+import CustomSwitch from '../../forms/theme-elements/CustomSwitch';
 
 const SwitchList = () => {
-    const [checked, setChecked] = React.useState(['wifi']);
+  const [checked, setChecked] = React.useState(['wifi']);
 
-    const handleToggle = (value) => () => {
-        const currentIndex = checked.indexOf(value);
-        const newChecked = [...checked];
+  const handleToggle = (value) => () => {
+    const currentIndex = checked.indexOf(value);
+    const newChecked = [...checked];
 
-        if (currentIndex === -1) {
-            newChecked.push(value);
-        } else {
-            newChecked.splice(currentIndex, 1);
-        }
+    if (currentIndex === -1) {
+      newChecked.push(value);
+    } else {
+      newChecked.splice(currentIndex, 1);
+    }
 
-        setChecked(newChecked);
-    };
+    setChecked(newChecked);
+  };
 
-    return (
-        <>
-            <Paper variant="outlined">
-                <List subheader={<ListSubheader>Settings</ListSubheader>}>
+  return (
+    <>
+      <Paper variant="outlined">
+        {/* <List subheader={<ListSubheader>Settings</ListSubheader>}>
                     <ListItem>
                         <ListItemIcon>
                             <IconWifi width={20} height={20} />
@@ -53,10 +53,10 @@ const SwitchList = () => {
                             }}
                         />
                     </ListItem>
-                </List>
-            </Paper>
-        </>
-    );
-}
+                </List> */}
+      </Paper>
+    </>
+  );
+};
 
 export default SwitchList;

@@ -20,23 +20,9 @@ const AddHomeForm = () => {
   const urlRef = useRef();
   const [carouselImage, setCarouselImage] = useState('');
 
-  // const getbase64 = (file) => {
-  //   return new Promise((resolve, reject) => {
-  //     const fr = new FileReader();
-
-  //     // console.log(file instanceof Blob); // should be true
-
-  //     fr.readAsDataURL(file);
-  //     fr.onerror = reject;
-  //     fr.onload = function () {
-  //       resolve(fr.result);
-  //     };
-  //   });
-  // };
-
   const handleChooseImage = async (e) => {
     try {
-      const imageURL = await uploadImageToFirebase('homeImages', e.target.files[0]);
+      const imageURL = await uploadImageToFirebase('homeImage', e.target.files[0]);
 
       setCarouselImage({
         name: e.target.files[0].name,
@@ -47,17 +33,6 @@ const AddHomeForm = () => {
     } catch (err) {
       console.log(err);
     }
-
-    // console.log(e.target.files[0]);
-    // const imgUrl = e.target.files[0];
-    // const url = await getbase64(e.target.files[0]);
-    // setBlogImage({
-    //   name: e.target.files[0].name,
-    //   type: e.target.files[0].type,
-    //   size: e.target.files[0].size,
-    //   url,
-    // });
-    // setSelectedImage(URL.createObjectURL(e.target.files[0]));
   };
 
   const handleSubmit = () => {
@@ -74,7 +49,7 @@ const AddHomeForm = () => {
         imageLink: urlLink,
       };
 
-      console.log(data);
+      // console.log(data);
 
       addToFirebase('home', data).then((res) => {
         alert('Carousel added successfully');
@@ -93,7 +68,7 @@ const AddHomeForm = () => {
         {/* 1 */}
         <Grid item xs={12} display="flex" alignItems="center">
           <CustomFormLabel htmlFor="bl-title" sx={{ mt: 0 }}>
-            image URL
+            Link
           </CustomFormLabel>
         </Grid>
         <Grid item xs={12}>

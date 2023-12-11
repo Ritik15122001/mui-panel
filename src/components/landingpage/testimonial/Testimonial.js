@@ -103,7 +103,7 @@ const Testimonial = () => {
         <TestimonialTitle />
         <Box mt={5}>
           <AnimationFadeIn>
-            <Slider {...settings}>
+            {/* <Slider {...settings}>
               {SliderData.map((slider, index) => (
                 <Box p="15px" key={index}>
                   <BlankCard>
@@ -134,7 +134,7 @@ const Testimonial = () => {
                   </BlankCard>
                 </Box>
               ))}
-            </Slider>
+            </Slider> */}
           </AnimationFadeIn>
         </Box>
       </Container>

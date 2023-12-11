@@ -15,7 +15,7 @@ const Settings = () => {
 
   return (
     <BlankCard>
-      <CardContent sx={{p: "30px"}}>
+      {/* <CardContent sx={{p: "30px"}}>
         <Typography variant="h5">Settings</Typography>
         <Stack spacing={2} mt={3}>
           <Stack direction="row" spacing={2}>
@@ -55,7 +55,7 @@ const Settings = () => {
             <Button variant="outlined" color="error">Cancel</Button>
             <Button variant="contained" color="primary">Save</Button>
         </Stack>
-      </CardContent>
+      </CardContent> */}
     </BlankCard>
   );
 };

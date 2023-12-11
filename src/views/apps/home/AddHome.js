@@ -11,7 +11,7 @@ import AddHomeForm from '../../../components/apps/home/AddHomeForm';
 const AddHome = () => {
   return (
     <PageContainer title="Home" description="Add home carousel">
-      <Breadcrumb title="Home" subtitle="Add carousels on homepage" />
+      <Breadcrumb title="Home" />
       <Grid item xs={12} lg={6}>
         <ParentCard title="Add a carousel">
           <AddHomeForm />

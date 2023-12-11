@@ -94,7 +94,7 @@ const Customizer = () => {
       {/* ------------------------------------------- */}
       {/* --Floating Button to open customizer ------ */}
       {/* ------------------------------------------- */}
-      <Tooltip title="Settings">
+      {/* <Tooltip title="Settings">
         <Fab
           color="primary"
           aria-label="settings"
@@ -103,7 +103,7 @@ const Customizer = () => {
         >
           <IconSettings stroke={1.5} />
         </Fab>
-      </Tooltip>
+      </Tooltip> */}
       <Drawer
         anchor="right"
         open={showDrawer}
@@ -114,9 +114,6 @@ const Customizer = () => {
           },
         }}
       >
-        {/* ------------------------------------------- */}
-        {/* ------------ Customizer Sidebar ------------- */}
-        {/* ------------------------------------------- */}
         <Scrollbar sx={{ height: 'calc(100vh - 5px)' }}>
           <Box p={2} display="flex" justifyContent={'space-between'} alignItems="center">
             <Typography variant="h4">Settings</Typography>
@@ -126,9 +123,6 @@ const Customizer = () => {
           </Box>
           <Divider />
           <Box p={3}>
-            {/* ------------------------------------------- */}
-            {/* ------------ Dark light theme setting ------------- */}
-            {/* ------------------------------------------- */}
             <Typography variant="h6" gutterBottom>
               Theme Option
             </Typography>
@@ -148,9 +142,7 @@ const Customizer = () => {
             </Stack>
 
             <Box pt={3} />
-            {/* ------------------------------------------- */}
-            {/* ------------ RTL theme setting -------------*/}
-            {/* ------------------------------------------- */}
+
             <Typography variant="h6" gutterBottom>
               Theme Direction
             </Typography>
@@ -170,9 +162,7 @@ const Customizer = () => {
             </Stack>
 
             <Box pt={3} />
-            {/* ------------------------------------------- */}
-            {/* ------------ Theme Color setting ------------- */}
-            {/* ------------------------------------------- */}
+
             <Typography variant="h6" mb={1} gutterBottom>
               Theme Colors
             </Typography>
@@ -202,9 +192,7 @@ const Customizer = () => {
               ))}
             </Grid>
             <Box pt={4} />
-            {/* ------------------------------------------- */}
-            {/* ------------ Layout Horizontal / Vertical ------------- */}
-            {/* ------------------------------------------- */}
+
             <Typography variant="h6" gutterBottom>
               Layout Type
             </Typography>
@@ -221,9 +209,7 @@ const Customizer = () => {
               </StyledBox>
             </Stack>
             <Box pt={4} />
-            {/* ------------------------------------------- */}
-            {/* ------------ Layout Boxed / Full ------------- */}
-            {/* ------------------------------------------- */}
+
             <Typography variant="h6" gutterBottom>
               Container Option
             </Typography>
@@ -242,13 +228,7 @@ const Customizer = () => {
               </StyledBox>
             </Stack>
             <Box pt={4} />
-            {/* ------------------------------------------- */}
-            {/* ------------ Sidebar Color setting ------------- */}
-            {/* ------------------------------------------- */}
 
-            {/* ------------------------------------------- */}
-            {/* ------------ Theme Color setting ------------- */}
-            {/* ------------------------------------------- */}
             {customizer.isHorizontal ? (
               ''
             ) : (
@@ -283,9 +263,7 @@ const Customizer = () => {
               </StyledBox>
             </Stack>
             <Box pt={4} />
-            {/* ------------------------------------------- */}
-            {/* ------------ Theme Color setting ------------- */}
-            {/* ------------------------------------------- */}
+
             <Typography variant="h6" gutterBottom>
               Theme Border Radius
             </Typography>

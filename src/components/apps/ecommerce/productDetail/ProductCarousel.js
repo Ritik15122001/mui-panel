@@ -73,7 +73,7 @@ const ProductCarousel = () => {
           </Box>
         ))}
       </Slider>
-      <Slider asNavFor={nav1} ref={(slider) => (slider2.current = slider)} {...settings}>
+      {/* <Slider asNavFor={nav1} ref={(slider) => (slider2.current = slider)} {...settings}>
         <Box sx={{ p: 1, cursor: 'pointer' }}>
           <img
             src={getProductImage}
@@ -92,7 +92,7 @@ const ProductCarousel = () => {
             />
           </Box>
         ))}
-      </Slider>
+      </Slider> */}
     </Box>
   );
 };

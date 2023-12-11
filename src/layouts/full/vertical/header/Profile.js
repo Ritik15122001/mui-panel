@@ -56,7 +56,7 @@ const Profile = () => {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         sx={{
           '& .MuiMenu-paper': {
-            width: '360px',
+            width: '300px',
           },
         }}
       >
@@ -67,12 +67,12 @@ const Profile = () => {
               <Avatar src={ProfileImg} alt={ProfileImg} sx={{ width: 95, height: 95 }} />
               <Box>
                 <Typography variant="subtitle2" color="textPrimary" fontWeight={600}>
-                  Mathew Anderson
+                  Genuine Effect
                 </Typography>
                 <Typography variant="subtitle2" color="textSecondary">
-                  Designer
+                  Admin
                 </Typography>
-                <Typography
+                {/* <Typography
                   variant="subtitle2"
                   color="textSecondary"
                   display="flex"
@@ -80,12 +80,12 @@ const Profile = () => {
                   gap={1}
                 >
                   <IconMail width={15} height={15} />
-                  info@modernize.com
-                </Typography>
+                  info@genuineeffect.com
+                </Typography> */}
               </Box>
             </Stack>
             <Divider />
-            {dropdownData.profile.map((profile) => (
+            {/* {dropdownData.profile.map((profile) => (
               <Box key={profile.title}>
                 <Box sx={{ py: 2, px: 0 }} className="hover-text-primary">
                   <Link to={profile.href}>
@@ -136,9 +136,9 @@ const Profile = () => {
                   </Link>
                 </Box>
               </Box>
-            ))}
+            ))} */}
             <Box mt={2}>
-              <Box bgcolor="primary.light" p={3} mb={3} overflow="hidden" position="relative">
+              {/* <Box bgcolor="primary.light" p={3} mb={3} overflow="hidden" position="relative">
                 <Box display="flex" justifyContent="space-between">
                   <Box>
                     <Typography variant="h5" mb={2}>
@@ -151,7 +151,7 @@ const Profile = () => {
                   </Box>
                   <img src={unlimitedImg} alt="unlimited" className="signup-bg"></img>
                 </Box>
-              </Box>
+              </Box> */}
               <Button
                 to="/auth/login"
                 variant="outlined"

@@ -10,7 +10,7 @@ import AddServicesForm from '../../../components/apps/services/AddServicesForm';
 const AddServices = () => {
   return (
     <PageContainer title="Services" description="Add your Services">
-      <Breadcrumb title="Services" subtitle="Add your services" />
+      <Breadcrumb title="Services" />
       <Grid item xs={12} lg={6}>
         <ParentCard title="Add your service">
           <AddServicesForm />

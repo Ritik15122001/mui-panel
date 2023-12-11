@@ -7,6 +7,7 @@ import { toggleMobileSidebar } from 'src/store/customizer/CustomizerSlice';
 import NavItem from './NavItem';
 import NavCollapse from './NavCollapse';
 import NavGroup from './NavGroup/NavGroup';
+import { Link } from 'react-router-dom';
 
 const SidebarItems = () => {
   const { pathname } = useLocation();
@@ -19,6 +20,12 @@ const SidebarItems = () => {
 
   return (
     <Box sx={{ px: 3 }}>
+      {/* <List sx={{ pt: 1 }} className="sidebarNav">
+        DASHBOARD
+      </List> */}
+      <Link to="/dashboard">
+        <h3 style={{ color: 'black' }}>DASHBOARD</h3>
+      </Link>
       <List sx={{ pt: 0 }} className="sidebarNav">
         {Menuitems.map((item, index) => {
           // {/********SubHeader**********/}

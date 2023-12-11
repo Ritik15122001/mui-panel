@@ -10,8 +10,7 @@ import {
   IconLogin,
   IconUserPlus,
   IconRotate,
-  IconZoomCode
-
+  IconZoomCode,
 } from '@tabler/icons';
 import { uniqueId } from 'lodash';
 
@@ -591,12 +590,12 @@ const Menuitems = [
         icon: IconPoint,
         href: '/tables/pagination',
       },
-      {
-        id: uniqueId(),
-        title: 'Search',
-        icon: IconPoint,
-        href: '/tables/search',
-      },
+      // {
+      //   id: uniqueId(),
+      //   title: 'Search',
+      //   icon: IconPoint,
+      //   href: '/tables/search',
+      // },
     ],
   },
 ];

@@ -75,13 +75,13 @@ const Sidebar = () => {
             <Box px={3}>
               <Logo />
             </Box>
-            <Scrollbar sx={{ height: 'calc(100% - 190px)' }}>
+            <Scrollbar>
               {/* ------------------------------------------- */}
               {/* Sidebar Items */}
               {/* ------------------------------------------- */}
               <SidebarItems />
             </Scrollbar>
-            <Profile />
+            {/* <Profile /> */}
           </Box>
         </Drawer>
       </Box>

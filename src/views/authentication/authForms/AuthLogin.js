@@ -26,8 +26,8 @@ const AuthLogin = ({ title, subtitle, subtext }) => (
 
     {subtext}
 
-    <AuthSocialButtons title="Sign in with" />
-    <Box mt={3}>
+    {/* <AuthSocialButtons /> */}
+    {/* <Box mt={3}>
       <Divider>
         <Typography
           component="span"
@@ -40,7 +40,7 @@ const AuthLogin = ({ title, subtitle, subtext }) => (
           or sign in with
         </Typography>
       </Divider>
-    </Box>
+    </Box> */}
 
     <Stack>
       <Box>
@@ -52,13 +52,13 @@ const AuthLogin = ({ title, subtitle, subtext }) => (
         <CustomTextField id="password" type="password" variant="outlined" fullWidth />
       </Box>
       <Stack justifyContent="space-between" direction="row" alignItems="center" my={2}>
-        <FormGroup>
+        {/* <FormGroup>
           <FormControlLabel
             control={<CustomCheckbox defaultChecked />}
             label="Remeber this Device"
           />
-        </FormGroup>
-        <Typography
+        </FormGroup> */}
+        {/* <Typography
           component={Link}
           to="/auth/forgot-password"
           fontWeight="500"
@@ -68,7 +68,7 @@ const AuthLogin = ({ title, subtitle, subtext }) => (
           }}
         >
           Forgot Password ?
-        </Typography>
+        </Typography> */}
       </Stack>
     </Stack>
     <Box>
@@ -78,13 +78,13 @@ const AuthLogin = ({ title, subtitle, subtext }) => (
         size="large"
         fullWidth
         component={Link}
-        to="/"
+        to="/dashboard"
         type="submit"
       >
         Sign In
       </Button>
     </Box>
-    {subtitle}
+    {/* {subtitle} */}
   </>
 );
 

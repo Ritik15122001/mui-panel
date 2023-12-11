@@ -10,7 +10,7 @@ import AddBlogForm from '../../../components/apps/blog/AddBlogForm';
 const AddBlog = () => {
   return (
     <PageContainer title="Blog" description="Add your Blog">
-      <Breadcrumb title="Blog app" subtitle="Post your blogs" />
+      <Breadcrumb title="Blog app" />
       <Grid item xs={12} lg={6}>
         <ParentCard title="Post your blog">
           <AddBlogForm />
