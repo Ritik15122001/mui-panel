@@ -26,7 +26,7 @@ import Breadcrumb from '../../../layouts/full/shared/breadcrumb/Breadcrumb';
 // import Breadcrumb from '../../layouts/full/shared/breadcrumb/Breadcrumb';
 // import PageContainer from '../../../components/container/PageContainer';
 import PageContainer from '../../../components/container/PageContainer';
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 
 
 import img1 from '../../../assets/images/profile/user-1.jpg';
@@ -238,7 +238,7 @@ const ViewHome = () => {
                           style={{ border: 'none', backgroundColor: 'white', cursor: 'pointer' }}
                           onClick={() => handledelete(row)}
                         >
-                          <DeleteIcon />
+                          <DeleteOutlineIcon />
                         </button>
                       </Typography>
                     </TableCell>

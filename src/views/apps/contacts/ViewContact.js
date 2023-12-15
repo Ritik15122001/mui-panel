@@ -45,7 +45,7 @@ import { removeFromFirebase } from '../../../firebase';
 
 import UpdateContact from '../../../components/apps/contacts/UpdateContact';
 import { useNavigate } from 'react-router-dom';
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 function TablePaginationActions(props) {
   const theme = useTheme();
   const { count, page, rowsPerPage, onPageChange } = props;
@@ -249,7 +249,7 @@ const ViewContact = () => {
                           style={{ border: 'none', backgroundColor: 'white', cursor: 'pointer' }}
                           onClick={() => handledelete(row)}
                         >
-                          <DeleteIcon />
+                          <DeleteOutlineIcon />
                         </button>
                       </Typography>
                     </TableCell>

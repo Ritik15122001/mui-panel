@@ -43,7 +43,7 @@ import { readFirebase } from '../../../firebase';
 import { ModeEditOutlined, VisibilityOutlined } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { removeFromFirebase } from '../../../firebase';
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 
 function TablePaginationActions(props) {
   const theme = useTheme();
@@ -307,7 +307,7 @@ const ViewWork = () => {
                           style={{ border: 'none', backgroundColor: 'white', cursor: 'pointer' }}
                           onClick={() => handledelete(row)}
                         >
-                          <DeleteIcon />
+                          <DeleteOutlineIcon />
                         </button>
 
                       </Typography>

@@ -39,7 +39,7 @@ import img4 from '../../../assets/images/profile/user-4.jpg';
 import img5 from '../../../assets/images/profile/user-5.jpg';
 import ParentCard from '../../../components/shared/ParentCard';
 import { removeFromFirebase } from '../../../firebase';
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { Stack } from '@mui/system';
 import { readFirebase } from '../../../firebase';
 import { ModeEditOutlined, VisibilityOutlined } from '@mui/icons-material';
@@ -284,7 +284,7 @@ const ViewServices = () => {
                           style={{ border: 'none', backgroundColor: 'white', cursor: 'pointer' }}
                           onClick={() => handledelete(row)}
                         >
-                          <DeleteIcon />
+                          <DeleteOutlineIcon />
                         </button>
                       </Typography>
                     </TableCell>

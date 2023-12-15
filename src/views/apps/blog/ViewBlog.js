@@ -42,7 +42,7 @@ import { Stack } from '@mui/system';
 import { readFirebase } from '../../../firebase';
 import { ModeEditOutlined, VisibilityOutlined } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { removeFromFirebase } from '../../../firebase';
 
 function TablePaginationActions(props) {
@@ -305,7 +305,7 @@ const ViewBlog = () => {
                           style={{ border: 'none', backgroundColor: 'white', cursor: 'pointer' }}
                           onClick={() => handledelete(row)}
                         >
-                          <DeleteIcon />
+                          <DeleteOutlineIcon />
                         </button>
 
                       </Typography>
