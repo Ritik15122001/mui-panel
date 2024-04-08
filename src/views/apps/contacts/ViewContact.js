@@ -42,6 +42,7 @@ import { Stack } from '@mui/system';
 import { readFirebase } from '../../../firebase';
 import { ModeEditOutlined, VisibilityOutlined } from '@mui/icons-material';
 import { removeFromFirebase } from '../../../firebase';
+import { API_PATHS,API_URL } from '../../../utils';
 
 import UpdateContact from '../../../components/apps/contacts/UpdateContact';
 import { useNavigate } from 'react-router-dom';
@@ -171,18 +172,20 @@ const ViewContact = () => {
     const del = rows.find(item => row.key === item.key)
     console.log(del)
 
-    removeFromFirebase(`contact/${del.key}`).then((res) => {
+    removeFromFirebase(API_PATHS.ADD_Contact+"/"+`${row._id}`).then((res) => {
       alert('Delete  successfully');
       valueDataBase()
     });
 
   };
+
+  
   const valueDataBase = async () => {
     try {
-      const result = await readFirebase('contact');
+      const result = await readFirebase(API_PATHS.ADD_Contact);
       // Use the result array here
       // console.log('result-->', result);
-      setRows(result);
+      setRows(result.data);
     } catch (error) {
       // Handle errors
       console.error(error);
@@ -215,10 +218,19 @@ const ViewContact = () => {
                     <Typography variant="h6">Action</Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography variant="h6">Title</Typography>
+                    <Typography variant="h6">Name</Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography variant="h6">Description</Typography>
+                    <Typography variant="h6">Email</Typography>
+                  </TableCell>
+                  <TableCell>
+                    <Typography variant="h6">PhoneNumber</Typography>
+                  </TableCell>
+                  <TableCell>
+                    <Typography variant="h6">Subject</Typography>
+                  </TableCell>
+                  <TableCell>
+                    <Typography variant="h6">Message</Typography>
                   </TableCell>
                 </TableRow>
               </TableHead>
@@ -237,13 +249,13 @@ const ViewContact = () => {
                         >
                           <VisibilityOutlined />
                         </button>
-                        <button
+                        {/* <button
                           className="btn button"
                           style={{ border: 'none', backgroundColor: 'white', cursor: 'pointer' }}
                           onClick={() => handleUpdate(row)}
                         >
                           <ModeEditOutlined />
-                        </button>
+                        </button> */}
                         <button
                           className="btn button"
                           style={{ border: 'none', backgroundColor: 'white', cursor: 'pointer' }}
@@ -257,14 +269,30 @@ const ViewContact = () => {
                       <Typography variant="h6">{row.orderno}</Typography>
                     </TableCell> */}
                     <TableCell>
-                      <Stack direction="row" spacing={2} alignItems="center">
-                        {/* <Avatar src={row.imgsrc} alt={row.imgsrc} width="30" /> */}
                         <Typography variant="h6" fontWeight="600">
-                          {row.title}
-                        </Typography>
-                      </Stack>
+                          {row.name}
+                          </Typography>
                     </TableCell>
-
+                    <TableCell>
+                        <Typography variant="h6" fontWeight="600">
+                          {row.email}
+                          </Typography>
+                    </TableCell>
+                    <TableCell>
+                        <Typography variant="h6" fontWeight="600">
+                          {row.phoneNumber}
+                          </Typography>
+                    </TableCell>
+                    <TableCell>
+                        <Typography variant="h6" fontWeight="600">
+                          {row.subject}
+                          </Typography>
+                    </TableCell>
+                    <TableCell>
+                        <Typography variant="h6" fontWeight="600">
+                          {row.message}
+                          </Typography>
+                    </TableCell>
                     <TableCell>
                       <Typography color="textSecondary" variant="h6" fontWeight="400">
                         <Button

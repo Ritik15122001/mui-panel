@@ -43,6 +43,7 @@ import { Stack } from '@mui/system';
 import { readFirebase } from '../../../firebase';
 import { ModeEditOutlined, VisibilityOutlined } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
+import { API_URL,API_PATHS } from '../../../utils';
 
 function TablePaginationActions(props) {
   const theme = useTheme();
@@ -181,10 +182,10 @@ const ViewTeam = () => {
     setPage(0);
   };
   const handledelete = (row) => {
-    const del = rows.find(item => row.key === item.key)
-    console.log(del)
+    // const del = rows.find(item => row.key === item.key)
+    // console.log(del)
 
-    removeFromFirebase(`team/${del.key}`).then((res) => {
+    removeFromFirebase(API_PATHS.ADD_TEAM+"/"+`${row._id}`).then((res) => {
       alert('Delete  successfully');
       valueDataBase()
     });
@@ -192,10 +193,10 @@ const ViewTeam = () => {
   };
   const valueDataBase = async () => {
     try {
-      const result = await readFirebase('team');
+      const result = await readFirebase(API_PATHS.ADD_TEAM);
       // Use the result array here
       // console.log('result-->', result);
-      setRows(result);
+      setRows(result.data);
     } catch (error) {
       // Handle errors
       console.error(error);
@@ -235,12 +236,6 @@ const ViewTeam = () => {
                   </TableCell>
                   <TableCell>
                     <Typography variant="h6">Desgination</Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography variant="h6">Description</Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography variant="h6">LinkedIn</Typography>
                   </TableCell>
                   {/* <TableCell>
                     <Typography variant="h6">Tags</Typography>
@@ -287,17 +282,17 @@ const ViewTeam = () => {
                     </TableCell>
                     <TableCell>
                       <Stack direction="row" spacing={2} alignItems="center">
-                        <Avatar src={row.teamImage.url} alt={row.teamImage.url} width="30" />
+                        <Avatar  src={`${API_URL}/${row.image.filename}`} alt={row.teamImage} width="30" />
                       </Stack>
                     </TableCell>
                     <TableCell>
                       <Typography color="textSecondary" variant="h6" fontWeight="400">
-                        {row.name}
+                        {row.MemberName}
                       </Typography>
                     </TableCell>
                     <TableCell>
                       <Typography color="textSecondary" variant="h6" fontWeight="400">
-                        {row.desgination}
+                        {row.designation}
                       </Typography>
                     </TableCell>
 

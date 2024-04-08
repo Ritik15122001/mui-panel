@@ -31,7 +31,7 @@ const Login = () => (
       >
         <Box position="relative">
           <Box px={3}>
-            <h2 style={{ cursor: 'pointer' }}>Genuine Effect</h2>
+            <h2 style={{ cursor: 'pointer' }}>iNov8</h2>
           </Box>
           {/* <Box
             alignItems="center"
@@ -69,7 +69,7 @@ const Login = () => (
       >
         <Box p={4}>
           <AuthLogin
-            title="Welcome to Genuine Effect"
+            title="Welcome to iNov8"
             // subtext={
             //   <Typography variant="subtitle1" color="textSecondary" mb={1}>
             //     Your Admin Dashboard

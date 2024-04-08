@@ -7,7 +7,7 @@ import {
   Autocomplete,
   TextField,
 } from '@mui/material';
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState,useEffect } from 'react';
 
 import { addToFirebase, updateInFirebase, uploadImageToFirebase } from '../../../firebase';
 import ReactQuill from 'react-quill';
@@ -19,6 +19,8 @@ import CustomTextField from '../../forms/theme-elements/CustomTextField';
 import CustomSelect from '../../forms/theme-elements/CustomSelect';
 import ParentCard from '../../shared/ParentCard';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { readFirebasebyId } from '../../../firebase';
+import { API_PATHS,API_URL } from '../../../utils';
 
 const PreviewWork = () => {
   const location = useLocation();
@@ -36,6 +38,13 @@ const PreviewWork = () => {
   const [place, setPlace] = useState(rows.place);
   // const placeRef = useRef();
   const [clientName, setClientName] = useState(rows.clientName);
+
+  const [data, setData] = useState({
+    heading: "",
+    subheading: "",
+    image: "",
+});
+  
 
   const handleChooseImage = async (e) => {
     try {
@@ -55,6 +64,32 @@ const PreviewWork = () => {
   const handleSubmit = () => {
     navigate('/apps/work/view');
   };
+
+
+  const workid = rows._id
+
+  const handleData = async (workid) => {
+    // console.log("rowid---->"+workid);
+
+    try {
+      const result = await readFirebasebyId(API_PATHS.ADD_work + "/" + workid);
+      setData({
+        heading: result.data.heading,
+        subheading: result.data.subheading,
+        image: result.data.image,
+     
+        // Set other fields as needed
+    });
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+   
+  };
+
+  console.log("titles---->",data.titles)
+  useEffect(() => {
+    handleData(workid);
+  }, []);
   return (
     <div>
       {/* ------------------------------------------------------------------------------------------------ */}
@@ -73,7 +108,7 @@ const PreviewWork = () => {
             id="bl-title"
             placeholder="John Deo"
             fullWidth
-            value={title}
+            value={data.heading}
             onChange={(e) => setTitle(e.target.value)}
           />
         </Grid>
@@ -87,9 +122,9 @@ const PreviewWork = () => {
             <CustomTextField id="bl-image" type="file" fullWidth onChange={handleChooseImage} />
           </Grid> */}
         <Grid item xs={12}>
-          {workImage && workImage.url && (
-            <img src={workImage.url} width={200} height={200} style={{ objectFit: 'contain' }} />
-          )}
+          
+            <img src={`${API_URL}/${data.image.filename}`} width={200} height={200} style={{ objectFit: 'contain' }} />
+          
         </Grid>
         <Grid item xs={12} display="flex" alignItems="center">
           <CustomFormLabel htmlFor="bl-description">Description</CustomFormLabel>
@@ -98,14 +133,14 @@ const PreviewWork = () => {
           <Paper variant="outlined">
             <ReactQuill
               readOnly
-              value={quillText}
+              value={data.subheading}
               onChange={(value) => setQuillText(value)}
               placeholder="Description"
             />
           </Paper>
         </Grid>
 
-        <Grid item xs={12} display="flex" alignItems="center">
+        {/* <Grid item xs={12} display="flex" alignItems="center">
           <CustomFormLabel htmlFor="bl-accordion"></CustomFormLabel>
         </Grid>
 
@@ -124,9 +159,9 @@ const PreviewWork = () => {
                   value={clientName}
                   onChange={(e) => setClientName(e.target.value)}
                 />
-              </Grid>
+              </Grid> */}
 
-              <Grid item xs={12} display="flex" alignItems="center">
+              {/* <Grid item xs={12} display="flex" alignItems="center">
                 <CustomFormLabel htmlFor="outlined-multiline-static">Category</CustomFormLabel>
               </Grid>
 
@@ -145,9 +180,9 @@ const PreviewWork = () => {
               </Grid>
               <Grid item xs={12} display="flex" alignItems="center">
                 <CustomFormLabel htmlFor="outlined-multiline-static">Author</CustomFormLabel>
-              </Grid>
+              </Grid> */}
 
-              <Grid item xs={12} display="flex" alignItems="center">
+              {/* <Grid item xs={12} display="flex" alignItems="center">
                 <CustomTextField
                   disabled
                   id="outlined-multiline-static"
@@ -162,9 +197,9 @@ const PreviewWork = () => {
               </Grid>
               <Grid item xs={12} display="flex" alignItems="center">
                 <CustomFormLabel htmlFor="outlined-multiline-static">Place</CustomFormLabel>
-              </Grid>
+              </Grid> */}
 
-              <Grid item xs={12} display="flex" alignItems="center">
+              {/* <Grid item xs={12} display="flex" alignItems="center">
                 <CustomTextField
                   disabled
                   id="outlined-multiline-static"
@@ -176,8 +211,8 @@ const PreviewWork = () => {
                   value={place}
                   onChange={(e) => setPlace(e.target.value)}
                 />
-              </Grid>
-              <Grid item xs={12} display="flex" alignItems="center">
+              </Grid> */}
+              {/* <Grid item xs={12} display="flex" alignItems="center">
                 <CustomFormLabel htmlFor="bl-phone">Date</CustomFormLabel>
               </Grid>
               <Grid item xs={12}>
@@ -193,7 +228,7 @@ const PreviewWork = () => {
               </Grid>
             </Grid>
           </ParentCard>
-        </Grid>
+        </Grid> */}
 
         <Grid item xs={12} mt={3}>
           <Button variant="contained" color="primary" onClick={handleSubmit}>

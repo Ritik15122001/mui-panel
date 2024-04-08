@@ -7,7 +7,7 @@ import {
   Autocomplete,
   TextField,
 } from '@mui/material';
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState,useEffect } from 'react';
 
 import { addToFirebase, uploadImageToFirebase } from '../../../firebase';
 import ReactQuill from 'react-quill';
@@ -19,6 +19,8 @@ import CustomTextField from '../../forms/theme-elements/CustomTextField';
 import CustomSelect from '../../forms/theme-elements/CustomSelect';
 import ParentCard from '../../shared/ParentCard';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { readFirebasebyId } from '../../../firebase';
+import { API_PATHS,API_URL } from '../../../utils';
 
 const PreviewAbout = () => {
   //   const titleRef = useRef();
@@ -28,6 +30,12 @@ const PreviewAbout = () => {
   const [title, setTitle] = useState(rows.title);
   const [aboutImage, setAboutImage] = useState(rows.aboutImage);
   const [quillText, setQuillText] = useState(rows.description);
+  const [data, setData] = useState({
+    heading: "",
+    subheading: "",
+    image: "",
+    titles:"",
+});
 
   // const getbase64 = (file) => {
   //   return new Promise((resolve, reject) => {
@@ -43,19 +51,19 @@ const PreviewAbout = () => {
   //   });
   // };
 
-  const handleChooseImage = async (e) => {
-    try {
-      const imageURL = await uploadImageToFirebase('aboutImages', e.target.files[0]);
+  // const handleChooseImage = async (e) => {
+  //   try {
+  //     const imageURL = await uploadImageToFirebase('aboutImages', e.target.files[0]);
 
-      setAboutImage({
-        name: e.target.files[0].name,
-        type: e.target.files[0].type,
-        size: e.target.files[0].size,
-        url: imageURL,
-      });
-    } catch (err) {
-      console.log(err);
-    }
+  //     setAboutImage({
+  //       name: e.target.files[0].name,
+  //       type: e.target.files[0].type,
+  //       size: e.target.files[0].size,
+  //       url: imageURL,
+  //     });
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
 
     // console.log(e.target.files[0]);
     // const imgUrl = e.target.files[0];
@@ -67,11 +75,37 @@ const PreviewAbout = () => {
     //   url,
     // });
     // setSelectedImage(URL.createObjectURL(e.target.files[0]));
+ // };
+
+ const handleSubmit = () => {
+  navigate('/apps/home/view');
+};
+
+  const imageid = rows._id
+
+  const handleData = async (imageid) => {
+    // console.log("rowid---->"+imageid);
+
+    try {
+      const result = await readFirebasebyId(API_PATHS.ADD_About + "/" + imageid);
+      setData({
+        heading: result.data.heading,
+        subheading: result.data.subheading,
+        image: result.data.image,
+        titles: result.data.titles
+        // Set other fields as needed
+    });
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+   
   };
 
-  const handleSubmit = () => {
-    navigate('/apps/about/view');
-  };
+console.log("titles---->",data.titles)
+  useEffect(() => {
+    handleData(imageid);
+  }, []);
+
   return (
     <div>
       {/* ------------------------------------------------------------------------------------------------ */}
@@ -81,7 +115,7 @@ const PreviewAbout = () => {
         {/* 1 */}
         <Grid item xs={12} display="flex" alignItems="center">
           <CustomFormLabel htmlFor="bl-title" sx={{ mt: 0 }}>
-            Title
+            Heading
           </CustomFormLabel>
         </Grid>
         <Grid item xs={12}>
@@ -90,12 +124,24 @@ const PreviewAbout = () => {
             id="bl-title"
             placeholder="John Deo"
             fullWidth
-            value={title}
+            value={data.heading}
             onChange={(e) => setTitle(e.target.value)}
           />
         </Grid>
         {/* 2 */}
-
+        <Grid item xs={12} display="flex" alignItems="center">
+          <CustomFormLabel htmlFor="bl-description">SubHeading</CustomFormLabel>
+        </Grid>
+        <Grid item xs={12}>
+          <Paper variant="outlined">
+            <ReactQuill
+            readOnly
+              value={data.subheading}
+              onChange={(value) => setQuillText(value)}
+              placeholder="Description"
+            />
+          </Paper>
+        </Grid>
         {/* 5 */}
         <Grid item xs={12} display="flex" alignItems="center">
           <CustomFormLabel htmlFor="bl-message">Image</CustomFormLabel>
@@ -105,18 +151,18 @@ const PreviewAbout = () => {
           <CustomTextField id="bl-image" type="file" fullWidth onChange={handleChooseImage} />
         </Grid> */}
         <Grid item xs={12}>
-          {aboutImage && aboutImage.url && (
-            <img src={aboutImage.url} width={200} height={200} style={{ objectFit: 'contain' }} />
-          )}
+      
+            <img src={`${API_URL}/${data.image.filename}`} width={200} height={200} style={{ objectFit: 'contain' }} />
+          
         </Grid>
 
         <Grid item xs={12} display="flex" alignItems="center">
-          <CustomFormLabel htmlFor="bl-description">Description</CustomFormLabel>
+          <CustomFormLabel htmlFor="bl-description">Services</CustomFormLabel>
         </Grid>
         <Grid item xs={12}>
           <Paper variant="outlined">
             <ReactQuill
-              value={quillText}
+              value={data.titles}
               onChange={(value) => setQuillText(value)}
               placeholder="Description"
               readOnly

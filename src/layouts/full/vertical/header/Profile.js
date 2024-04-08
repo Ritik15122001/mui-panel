@@ -67,7 +67,7 @@ const Profile = () => {
               <Avatar src={ProfileImg} alt={ProfileImg} sx={{ width: 95, height: 95 }} />
               <Box>
                 <Typography variant="subtitle2" color="textPrimary" fontWeight={600}>
-                  Genuine Effect
+                iNov8
                 </Typography>
                 <Typography variant="subtitle2" color="textSecondary">
                   Admin

@@ -7,7 +7,7 @@ import {
   Autocomplete,
   TextField,
 } from '@mui/material';
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 
 import { addToFirebase, updateInFirebase, uploadImageToFirebase } from '../../../firebase';
 import ReactQuill from 'react-quill';
@@ -19,6 +19,8 @@ import CustomTextField from '../../forms/theme-elements/CustomTextField';
 import CustomSelect from '../../forms/theme-elements/CustomSelect';
 import ParentCard from '../../shared/ParentCard';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { API_PATHS,API_URL } from '../../../utils';
+import { readFirebasebyId } from '../../../firebase';
 
 const UpdateWork = () => {
   const location = useLocation();
@@ -39,44 +41,80 @@ const UpdateWork = () => {
   // const placeRef = useRef();
   const [clientName, setClientName] = useState(rows.clientName);
 
-  const handleChooseImage = async (e) => {
-    try {
-      const imageURL = await uploadImageToFirebase('workImages', e.target.files[0]);
+  const [data, setData] = useState({
+    heading: "",
+    subheading: "",
+    image: "",
+});
 
-      setWorkImage({
-        name: e.target.files[0].name,
-        type: e.target.files[0].type,
-        size: e.target.files[0].size,
-        url: imageURL,
-      });
-    } catch (err) {
-      console.log(err);
+
+const handleChangeHeading = (e) => {
+  setData({
+    ...data,
+    heading: e.target.value
+  });
+};
+
+const handleChangeSubheading = (value) => {
+  setData({
+    ...data,
+    subheading: value
+  });
+};
+
+const handleChooseImage = (e) => {
+  const file = e.target.files[0];
+console.log("image---->",file)
+// setCarouselImage(file);
+setData(prev => ({...prev,
+  image:file
+})); 
+}
+
+
+const heroimageid = rows._id;
+  const handleData = async (heroimageid) => {
+    // console.log("rowid---->"+heroimageid);
+
+    try {
+      const result = await readFirebasebyId(API_PATHS.ADD_work + "/" + heroimageid);
+      setData({
+        heading: result.data.heading,
+        subheading: result.data.subheading,
+        image: result.data.image
+        // Set other fields as needed
+    });
+    } catch (error) {
+      console.error("Error fetching data:", error);
     }
   };
 
+
+  useEffect(() => {
+    handleData(heroimageid);
+  }, []);
+
+
   const handleSubmit = () => {
     try {
-      const data = {
-        title,
-        workImage,
-        projectDescription: quillText,
-        clientName,
-        category,
-        author,
-        place,
-        workDate,
-      };
+      const formData = new FormData();
+
+      formData.append('heading',data.heading);
+      formData.append('subheading',data.subheading);
+      formData.append('image',data.image)
+
 
       // console.log(data);
 
-      updateInFirebase(`works/${rows.key}`, data).then((res) => {
-        alert('Work updated successfully');
+      updateInFirebase(API_PATHS.ADD_work+"/"+`${heroimageid}`,formData).then((res) => {
+        alert('Carousel updated successfully');
         navigate('/apps/work/view');
       });
     } catch (err) {
       alert('Error');
     }
   };
+
   return (
     <div>
       {/* ------------------------------------------------------------------------------------------------ */}
@@ -86,7 +124,7 @@ const UpdateWork = () => {
         {/* 1 */}
         <Grid item xs={12} display="flex" alignItems="center">
           <CustomFormLabel htmlFor="bl-title" sx={{ mt: 0 }}>
-            Title
+            Heading
           </CustomFormLabel>
         </Grid>
         <Grid item xs={12}>
@@ -94,8 +132,8 @@ const UpdateWork = () => {
             id="bl-title"
             placeholder="John Deo"
             fullWidth
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            value={data.heading}
+            onChange={(e) =>handleChangeHeading(e)}
           />
         </Grid>
         {/* 2 */}
@@ -108,107 +146,28 @@ const UpdateWork = () => {
           <CustomTextField id="bl-image" type="file" fullWidth onChange={handleChooseImage} />
         </Grid>
         <Grid item xs={12}>
-          {workImage && workImage.url && (
-            <img src={workImage.url} width={200} height={200} style={{ objectFit: 'contain' }} />
-          )}
+       
+            <img src={`${API_URL}/${data.image.filename}`} width={200} height={200} style={{ objectFit: 'contain' }} />
+      
         </Grid>
         <Grid item xs={12} display="flex" alignItems="center">
-          <CustomFormLabel htmlFor="bl-description">Description</CustomFormLabel>
+          <CustomFormLabel htmlFor="bl-description">subheading</CustomFormLabel>
         </Grid>
         <Grid item xs={12}>
           <Paper variant="outlined">
             <ReactQuill
-              value={quillText}
-              onChange={(value) => setQuillText(value)}
+             value={data.subheading}
+             onChange={(value) => handleChangeSubheading(value)}
               placeholder="Description"
             />
           </Paper>
         </Grid>
 
-        <Grid item xs={12} display="flex" alignItems="center">
+        {/* <Grid item xs={12} display="flex" alignItems="center">
           <CustomFormLabel htmlFor="bl-accordion"></CustomFormLabel>
-        </Grid>
+        </Grid> */}
 
-        <Grid item xs={12} display="flex" alignItems="center">
-          <ParentCard title="Project Information">
-            <Grid container sx={{ mt: -3 }}>
-              <Grid item xs={12} display="flex" alignItems="center">
-                <CustomFormLabel htmlFor="bl-accordion-title">Client name</CustomFormLabel>
-              </Grid>
-              <Grid item xs={12}>
-                <CustomTextField
-                  id="bl-accordion-title"
-                  placeholder="John Deo"
-                  fullWidth
-                  value={clientName}
-                  onChange={(e) => setClientName(e.target.value)}
-                />
-              </Grid>
-
-              <Grid item xs={12} display="flex" alignItems="center">
-                <CustomFormLabel htmlFor="outlined-multiline-static">Category</CustomFormLabel>
-              </Grid>
-
-              <Grid item xs={12} display="flex" alignItems="center">
-                <CustomTextField
-                  id="outlined-multiline-static"
-                  placeholder="Modern"
-                  //   multiline
-                  //   rows={4}
-                  //   variant="outlined"
-                  fullWidth
-                  value={category}
-                  onChange={(e) => setCategory(e.target.value)}
-                />
-              </Grid>
-              <Grid item xs={12} display="flex" alignItems="center">
-                <CustomFormLabel htmlFor="outlined-multiline-static">Author</CustomFormLabel>
-              </Grid>
-
-              <Grid item xs={12} display="flex" alignItems="center">
-                <CustomTextField
-                  id="outlined-multiline-static"
-                  placeholder="Modern"
-                  //   multiline
-                  //   rows={4}
-                  //   variant="outlined"
-                  fullWidth
-                  value={author}
-                  onChange={(e) => setAuthor(e.target.value)}
-                />
-              </Grid>
-              <Grid item xs={12} display="flex" alignItems="center">
-                <CustomFormLabel htmlFor="outlined-multiline-static">Place</CustomFormLabel>
-              </Grid>
-
-              <Grid item xs={12} display="flex" alignItems="center">
-                <CustomTextField
-                  id="outlined-multiline-static"
-                  placeholder="Modern"
-                  //   multiline
-                  //   rows={4}
-                  //   variant="outlined"
-                  fullWidth
-                  value={place}
-                  onChange={(e) => setPlace(e.target.value)}
-                />
-              </Grid>
-              <Grid item xs={12} display="flex" alignItems="center">
-                <CustomFormLabel htmlFor="bl-phone">Date</CustomFormLabel>
-              </Grid>
-              <Grid item xs={12}>
-                <CustomTextField
-                  value={workDate}
-                  type="date"
-                  id="fs-date"
-                  placeholder="21-11-2023"
-                  fullWidth
-                  onChange={(e) => setWorkDate(e.target.value)}
-                />
-              </Grid>
-            </Grid>
-          </ParentCard>
-        </Grid>
+     
 
         <Grid item xs={12} mt={3}>
           <Button variant="contained" color="primary" onClick={handleSubmit}>
@@ -219,5 +178,6 @@ const UpdateWork = () => {
     </div>
   );
 };
+
 
 export default UpdateWork;

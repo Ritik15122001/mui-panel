@@ -39,6 +39,7 @@ import { Stack } from '@mui/system';
 import { readFirebase, removeFromFirebase } from '../../../firebase';
 import { ModeEditOutlined, VisibilityOutlined } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
+import { API_PATHS,API_URL } from '../../../utils';
 
 function TablePaginationActions(props) {
   const theme = useTheme();
@@ -140,10 +141,11 @@ const ViewHome = () => {
   const [rows, setRows] = React.useState([]);
   const navigate = useNavigate();
   const handleUpdate = (row) => {
-    navigate('/apps/home/update', { state: { row } });
+    // console.log("id---->",row._id)
+    navigate(`/apps/home/update/${row._id}`, { state: { row } });
   };
   const handlePreview = (row) => {
-    navigate('/apps/home/preview', { state: { row } });
+    navigate(`/apps/home/preview/${row._id}`, { state: { row } });
   };
 
   // Avoid a layout jump when reaching the last page with empty rows.
@@ -154,10 +156,10 @@ const ViewHome = () => {
   };
 
   const handledelete = (row) => {
-    const del = rows.find(item => row.key === item.key)
-    console.log(del)
+    // const del = rows.find(item => row.key === item.key)
+    // console.log(del)
 
-    removeFromFirebase(`home/${del.key}`).then((res) => {
+    removeFromFirebase(API_PATHS.ADD_HEROIMG+"/"+`${row._id}`).then((res) => {
       alert('Delete  successfully');
       valueDataBase()
     });
@@ -170,10 +172,10 @@ const ViewHome = () => {
   };
   const valueDataBase = async () => {
     try {
-      const result = await readFirebase('home');
+      const result = await readFirebase(API_PATHS.ADD_HEROIMG);
       // Use the result array here
       // console.log('result-->', result);
-      setRows(result);
+      setRows(result.data);
     } catch (error) {
       // Handle errors
       console.error(error);
@@ -182,6 +184,8 @@ const ViewHome = () => {
   React.useEffect(() => {
     valueDataBase();
   }, []);
+
+  console.log("Data---->",rows)
 
   return (
     <PageContainer title="Home">
@@ -206,7 +210,7 @@ const ViewHome = () => {
                     <Typography variant="h6">Image</Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography variant="h6">Image Url</Typography>
+                    <Typography variant="h6">Heading</Typography>
                   </TableCell>
                 </TableRow>
               </TableHead>
@@ -248,15 +252,15 @@ const ViewHome = () => {
                     <TableCell>
                       <Stack direction="row" spacing={2} alignItems="center">
                         <Avatar
-                          src={row.carouselImage.url}
-                          alt={row.carouselImage.name}
-                          width="30"
+                          src={`${API_URL}/${row.image.filename}`}
+                          alt={row.image.name}
+                          width="40"
                         />
                       </Stack>
                     </TableCell>
                     <TableCell>
                       <Typography color="textSecondary" variant="h6" fontWeight="400">
-                        {row.imageLink}
+                        {row.heading}
                       </Typography>
                     </TableCell>
                   </TableRow>

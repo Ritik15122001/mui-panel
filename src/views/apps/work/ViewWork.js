@@ -44,6 +44,7 @@ import { ModeEditOutlined, VisibilityOutlined } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { removeFromFirebase } from '../../../firebase';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import { API_PATHS,API_URL } from '../../../utils';
 
 function TablePaginationActions(props) {
   const theme = useTheme();
@@ -198,10 +199,10 @@ const ViewWork = () => {
     setPage(0);
   };
   const handledelete = (row) => {
-    const del = rows.find(item => row.key === item.key)
-    console.log(del)
+    // const del = rows.find(item => row.key === item.key)
+    // console.log(del)
 
-    removeFromFirebase(`works/${del.key}`).then((res) => {
+    removeFromFirebase(API_PATHS.ADD_work+"/"+`${row._id}`).then((res) => {
       alert('Delete  successfully');
       valueDataBase()
     });
@@ -209,10 +210,10 @@ const ViewWork = () => {
   };
   const valueDataBase = async () => {
     try {
-      const result = await readFirebase('works');
+      const result = await readFirebase(API_PATHS.ADD_work);
       // Use the result array here
       // console.log('result-->', result);
-      setRows(result);
+      setRows(result.data);
     } catch (error) {
       // Handle errors
       console.error(error);
@@ -221,6 +222,7 @@ const ViewWork = () => {
   React.useEffect(() => {
     valueDataBase();
   }, []);
+
   const handleDialog = (des) => {
     setShowDes(des);
     setOpenDialog(true);
@@ -245,15 +247,15 @@ const ViewWork = () => {
                     <Typography variant="h6">Action</Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography variant="h6">Title</Typography>
+                    <Typography variant="h6">Image</Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography variant="h6">Img</Typography>
+                    <Typography variant="h6">Heading</Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography variant="h6">Description</Typography>
+                    <Typography variant="h6">Subheading</Typography>
                   </TableCell>
-                  <TableCell>
+                  {/* <TableCell>
                     <Typography variant="h6">Client Name</Typography>
                   </TableCell>
                   <TableCell>
@@ -267,7 +269,7 @@ const ViewWork = () => {
                   </TableCell>
                   <TableCell>
                     <Typography variant="h6">Date</Typography>
-                  </TableCell>
+                  </TableCell> */}
                   {/* <TableCell>
                     <Typography variant="h6">Tags</Typography>
                   </TableCell> */}
@@ -313,14 +315,19 @@ const ViewWork = () => {
                       </Typography>
                     </TableCell>
                     <TableCell>
-                      <Typography variant="h6">{row.title}</Typography>
-                    </TableCell>
-                    <TableCell>
                       <Stack direction="row" spacing={2} alignItems="center">
-                        <Avatar src={row.workImage.url} alt={row.workImage.name} width="30" />
+                        <Avatar src={`${API_URL}/${row.image.filename}`} alt={row.workImage} width="30" />
                       </Stack>
                     </TableCell>
                     <TableCell>
+                      <Typography variant="h6">{row.heading}</Typography>
+                    </TableCell>
+
+                    <TableCell>
+                    <Typography variant="h6" dangerouslySetInnerHTML={{ __html: row.subheading }} />
+                    </TableCell>
+                   
+                    {/* <TableCell>
                       <Typography color="textSecondary" variant="h6" fontWeight="400">
                         <Button
                           className="btn button"
@@ -332,7 +339,7 @@ const ViewWork = () => {
                     </TableCell>
                     <TableCell>
                       <Typography color="textSecondary" variant="h6" fontWeight="400">
-                        {row.clientName}
+                        {row.heading}
                       </Typography>
                     </TableCell>
                     <TableCell>
@@ -349,12 +356,12 @@ const ViewWork = () => {
                       <Typography color="textSecondary" variant="h6" fontWeight="400">
                         {row.place}
                       </Typography>
-                    </TableCell>
-                    <TableCell>
+                    </TableCell> */}
+                    {/* <TableCell>
                       <Typography color="textSecondary" variant="h6" fontWeight="400">
                         {row.workDate}
                       </Typography>
-                    </TableCell>
+                    </TableCell> */}
                     {/* <TableCell>
                       <Typography color="textSecondary" variant="h6" fontWeight="400">
                         {row.tags}

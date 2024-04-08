@@ -44,6 +44,7 @@ import { readFirebase } from '../../../firebase';
 import { ModeEditOutlined, VisibilityOutlined } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { removeFromFirebase } from '../../../firebase';
+import { API_PATHS,API_URL } from '../../../utils';
 
 
 function TablePaginationActions(props) {
@@ -173,10 +174,10 @@ const ViewAbout = () => {
     setPage(0);
   };
   const handledelete = (row) => {
-    const del = rows.find(item => row.key === item.key)
-    console.log(del)
+    // const del = rows.find(item => row.key === item.key)
+    // console.log(del)
 
-    removeFromFirebase(`about/${del.key}`).then((res) => {
+    removeFromFirebase(API_PATHS.ADD_About+"/"+`${row._id}`).then((res) => {
       alert('Delete  successfully');
       valueDataBase()
     });
@@ -184,10 +185,8 @@ const ViewAbout = () => {
   };
   const valueDataBase = async () => {
     try {
-      const result = await readFirebase('about');
-      // Use the result array here
-      // console.log('result-->', result);
-      setRows(result);
+      const result = await readFirebase(API_PATHS.ADD_About);
+      setRows(result.data);
     } catch (error) {
       // Handle errors
       console.error(error);
@@ -224,12 +223,12 @@ const ViewAbout = () => {
                     <Typography variant="h6">Image</Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography variant="h6">Title</Typography>
+                    <Typography variant="h6">Heading</Typography>
                   </TableCell>
 
-                  <TableCell>
-                    <Typography variant="h6">Description</Typography>
-                  </TableCell>
+                  {/* <TableCell>
+                    <Typography variant="h6">Subheading</Typography>
+                  </TableCell> */}
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -268,12 +267,12 @@ const ViewAbout = () => {
                     </TableCell> */}
                     <TableCell>
                       <Stack direction="row" spacing={2} alignItems="center">
-                        <Avatar src={row.aboutImage.url} alt={row.aboutImage.name} width="30" />
+                        <Avatar src={`${API_URL}/${row.image.filename}`} alt={row.aboutImage} width="30" />
                       </Stack>
                     </TableCell>
                     <TableCell>
                       <Typography color="textSecondary" variant="h6" fontWeight="400">
-                        {row.title}
+                        {row.heading}
                       </Typography>
                     </TableCell>
                     <TableCell>

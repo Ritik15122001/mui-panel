@@ -8,6 +8,7 @@ import {
   TextField,
 } from '@mui/material';
 import React, { useRef, useState } from 'react';
+import { API_URL, API_PATHS } from '../../../utils';
 
 import { addToFirebase, uploadImageToFirebase } from '../../../firebase';
 import ReactQuill from 'react-quill';
@@ -22,6 +23,8 @@ import ParentCard from '../../shared/ParentCard';
 const AddTeamForm = () => {
   const titleRef = useRef();
   const [link, setLink] = useState('');
+  const [link2, setLink2] = useState('');
+  const [link3, setLink3] = useState('');
   const [teamImage, setTeamImage] = useState('');
   const [quillText, setQuillText] = useState('');
   const desginationRef = useRef();
@@ -40,30 +43,10 @@ const AddTeamForm = () => {
   //   });
   // };
 
-  const handleChooseImage = async (e) => {
-    try {
-      const imageURL = await uploadImageToFirebase('teamImages', e.target.files[0]);
-
-      setTeamImage({
-        name: e.target.files[0].name,
-        type: e.target.files[0].type,
-        size: e.target.files[0].size,
-        url: imageURL,
-      });
-    } catch (err) {
-      console.log(err);
-    }
-
-    // console.log(e.target.files[0]);
-    // const imgUrl = e.target.files[0];
-    // const url = await getbase64(e.target.files[0]);
-    // setBlogImage({
-    //   name: e.target.files[0].name,
-    //   type: e.target.files[0].type,
-    //   size: e.target.files[0].size,
-    //   url,
-    // });
-    // setSelectedImage(URL.createObjectURL(e.target.files[0]));
+  const handleChooseImage = (e) => {
+    const file = e.target.files[0];
+  console.log("image---->",file)
+    setTeamImage(file);
   };
 
   const handleSubmit = () => {
@@ -75,18 +58,26 @@ const AddTeamForm = () => {
       return;
     }
 
+    
+   
+   
+
+
     try {
-      const data = {
-        name: title,
-        teamImage,
-        description: quillText,
-        desgination,
-        link,
-      };
+     
+      const formData = new FormData();
+
+      formData.append('MemberName',title);
+      formData.append('designation',desgination);
+      formData.append('image',teamImage)
+      formData.append('facebook',link)
+      formData.append('twitter',link2)
+      formData.append('instagram',link3)
+
 
       // console.log(data);
 
-      addToFirebase('team', data).then((res) => {
+      addToFirebase(API_PATHS.ADD_TEAM, formData).then((res) => {
         alert('Team added successfully');
         titleRef.current.value = '';
         desginationRef.current.value = '';
@@ -94,6 +85,9 @@ const AddTeamForm = () => {
         setQuillText('');
         setLink('');
         setTeamImage('');
+        setLink('');
+        setLink2('');
+        setLink3('');
       });
     } catch (err) {
       alert('Error');
@@ -147,10 +141,10 @@ const AddTeamForm = () => {
             inputRef={desginationRef}
           />
         </Grid>
-        <Grid item xs={12} display="flex" alignItems="center">
+        {/* <Grid item xs={12} display="flex" alignItems="center">
           <CustomFormLabel htmlFor="bl-description">Description</CustomFormLabel>
-        </Grid>
-        <Grid item xs={12}>
+        </Grid> */}
+        {/* <Grid item xs={12}>
           <Paper variant="outlined">
             <ReactQuill
               value={quillText}
@@ -158,10 +152,10 @@ const AddTeamForm = () => {
               placeholder="Description"
             />
           </Paper>
-        </Grid>
+        </Grid> */}
         <Grid item xs={12} display="flex" alignItems="center">
-          <CustomFormLabel htmlFor="bl-title" sx={{ mt: 0 }}>
-            LinkedIn Link
+          <CustomFormLabel htmlFor="bl-title" sx={{ mt: 5 }}>
+            Facebook Link
           </CustomFormLabel>
         </Grid>
         <Grid item xs={12}>
@@ -173,6 +167,38 @@ const AddTeamForm = () => {
             onChange={(e) => setLink(e.target.value)}
           />
         </Grid>
+
+        <Grid item xs={12} display="flex" alignItems="center">
+          <CustomFormLabel htmlFor="bl-title" sx={{ mt: 5 }}>
+            Twitter Link
+          </CustomFormLabel>
+        </Grid>
+        <Grid item xs={12}>
+          <CustomTextField
+            value={link2}
+            id="bl-title"
+            placeholder="John Deo"
+            fullWidth
+            onChange={(e) => setLink2(e.target.value)}
+          />
+        </Grid>
+
+        <Grid item xs={12} display="flex" alignItems="center">
+          <CustomFormLabel htmlFor="bl-title" sx={{ mt: 5 }}>
+            Instagram Link
+          </CustomFormLabel>
+        </Grid>
+        <Grid item xs={12}>
+          <CustomTextField
+            value={link3}
+            id="bl-title"
+            placeholder="John Deo"
+            fullWidth
+            onChange={(e) => setLink3(e.target.value)}
+          />
+        </Grid>
+
+
 
         <Grid item xs={12} mt={3}>
           <Button variant="contained" color="primary" onClick={handleSubmit}>

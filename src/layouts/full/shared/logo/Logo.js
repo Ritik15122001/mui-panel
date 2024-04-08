@@ -5,6 +5,7 @@ import { ReactComponent as LogoDarkRTL } from 'src/assets/images/logos/dark-rtl-
 import { ReactComponent as LogoLight } from 'src/assets/images/logos/light-logo.svg';
 import { ReactComponent as LogoLightRTL } from 'src/assets/images/logos/light-logo-rtl.svg';
 import { styled } from '@mui/material';
+import image from '../../../../assets/images/logos/main-logo.png'
 
 const Logo = () => {
   const customizer = useSelector((state) => state.customizer);
@@ -24,7 +25,8 @@ const Logo = () => {
           alignItems: 'center',
         }}
       >
-        {customizer.activeMode === 'dark' ? <h2>Genuine Effect</h2> : <h2>Genuine Effect</h2>}
+        {customizer.activeMode === 'dark' ? <h2>iNov8</h2> : <h2>iNov8</h2>}
+        {/* <img src={image} alt="" /> */}
       </LinkStyled>
     );
   }
@@ -36,7 +38,7 @@ const Logo = () => {
         alignItems: 'center',
       }}
     >
-      {customizer.activeMode === 'dark' ? <h2>Genuine Effect</h2> : <h2>Genuine Effect</h2>}
+      {customizer.activeMode === 'dark' ? <h2>iNov8</h2> : <h2>iNov8</h2>}
     </LinkStyled>
   );
 };

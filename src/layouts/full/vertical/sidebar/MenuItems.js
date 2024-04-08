@@ -65,12 +65,12 @@ const Menuitems = [
     icon: IconUserCircle,
     href: '/apps/contacts/',
     children: [
-      {
-        id: uniqueId(),
-        title: 'Add',
-        icon: IconPoint,
-        href: '/apps/contacts/add',
-      },
+      // {
+      //   id: uniqueId(),
+      //   title: 'Add',
+      //   icon: IconPoint,
+      //   href: '/apps/contacts/add',
+      // },
       {
         id: uniqueId(),
         title: 'View',
@@ -86,32 +86,32 @@ const Menuitems = [
     ],
   },
 
-  {
-    id: uniqueId(),
-    title: 'Blog',
-    icon: IconMessage,
-    href: '/apps/blog/',
-    children: [
-      {
-        id: uniqueId(),
-        title: 'Add',
-        icon: IconPoint,
-        href: '/apps/blog/add',
-      },
-      {
-        id: uniqueId(),
-        title: 'View',
-        icon: IconPoint,
-        href: '/apps/blog/posts',
-      },
-      // {
-      //   id: uniqueId(),
-      //   title: 'Detail',
-      //   icon: IconPoint,
-      //   href: '/apps/blog/detail/streaming-video-way-before-it-was-cool-go-dark-tomorrow',
-      // },
-    ],
-  },
+  // {
+  //   id: uniqueId(),
+  //   title: 'Blog',
+  //   icon: IconMessage,
+  //   href: '/apps/blog/',
+  //   children: [
+  //     {
+  //       id: uniqueId(),
+  //       title: 'Add',
+  //       icon: IconPoint,
+  //       href: '/apps/blog/add',
+  //     },
+  //     {
+  //       id: uniqueId(),
+  //       title: 'View',
+  //       icon: IconPoint,
+  //       href: '/apps/blog/posts',
+  //     },
+  //     // {
+  //     //   id: uniqueId(),
+  //     //   title: 'Detail',
+  //     //   icon: IconPoint,
+  //     //   href: '/apps/blog/detail/streaming-video-way-before-it-was-cool-go-dark-tomorrow',
+  //     // },
+  //   ],
+  // },
   {
     id: uniqueId(),
     title: 'Services',
@@ -198,26 +198,26 @@ const Menuitems = [
       },
     ],
   },
-  {
-    id: uniqueId(),
-    title: 'Testimonial',
-    icon: IconChartCircles,
-    href: '/apps/testimonial/',
-    children: [
-      {
-        id: uniqueId(),
-        title: 'Add',
-        icon: IconPoint,
-        href: '/apps/testimonial/add',
-      },
-      {
-        id: uniqueId(),
-        title: 'View',
-        icon: IconPoint,
-        href: '/apps/testimonial/view',
-      },
-    ],
-  },
+  // {
+  //   id: uniqueId(),
+  //   title: 'Testimonial',
+  //   icon: IconChartCircles,
+  //   href: '/apps/testimonial/',
+  //   children: [
+  //     {
+  //       id: uniqueId(),
+  //       title: 'Add',
+  //       icon: IconPoint,
+  //       href: '/apps/testimonial/add',
+  //     },
+  //     {
+  //       id: uniqueId(),
+  //       title: 'View',
+  //       icon: IconPoint,
+  //       href: '/apps/testimonial/view',
+  //     },
+  //   ],
+  // },
 
   // {
   //   id: uniqueId(),

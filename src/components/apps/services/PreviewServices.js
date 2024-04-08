@@ -7,9 +7,9 @@ import {
   Autocomplete,
   TextField,
 } from '@mui/material';
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState,useEffect } from 'react';
 
-import { addToFirebase, uploadImageToFirebase } from '../../../firebase';
+import { addToFirebase, readFirebasebyId, uploadImageToFirebase } from '../../../firebase';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import './Quill.css';
@@ -18,6 +18,7 @@ import CustomTextField from '../../forms/theme-elements/CustomTextField';
 import CustomSelect from '../../forms/theme-elements/CustomSelect';
 import ParentCard from '../../shared/ParentCard';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { API_PATHS,API_URL } from '../../../utils';
 
 const PreviewServices = () => {
   const location = useLocation();
@@ -32,6 +33,10 @@ const PreviewServices = () => {
   const [accordionDescription, setAccordianDescription] = useState(rows.accordianDes);
   // const accordionTitleRef = useRef();
   const [accordianTitle, setAccordianTitle] = useState(rows.accordionTitle);
+  const [data, setData] = useState({ 
+    services:"",
+    image: "",
+});
 
   const handleChooseImage = async (e) => {
     try {
@@ -47,19 +52,8 @@ const PreviewServices = () => {
       console.log(err);
     }
   };
-  const handleChooseIcon = async (e) => {
-    try {
-      const iconURL = await uploadImageToFirebase('icon', e.target.files[0]);
 
-      setIcon({
-        name: e.target.files[0].name,
-        type: e.target.files[0].type,
-        size: e.target.files[0].size,
-        url: iconURL,
-      });
-    } catch (err) {
-      console.log(err);
-    }
+  console.log("service------>",data.services)
 
     // console.log(e.target.files[0]);
     // const imgUrl = e.target.files[0];
@@ -71,11 +65,38 @@ const PreviewServices = () => {
     //   url,
     // });
     // setSelectedImage(URL.createObjectURL(e.target.files[0]));
-  };
+  
 
   const handleSubmit = () => {
     navigate('/apps/services/view');
   };
+
+  const servicesid = rows._id
+
+  console.log("serviceid---->",servicesid)
+
+  const handleData = async (servicesid) => {
+    try {
+      const result = await readFirebasebyId(API_PATHS.ADD_Services + "/" + servicesid);
+    
+      setData({
+        services: result.data.services,
+        image: result.data.image,      
+      });
+
+      
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  
+  useEffect(() => {
+    handleData(servicesid);
+  }, []);
+
+
+console.log("services---------->",data.services)
+  
   return (
     <div>
       {/* ------------------------------------------------------------------------------------------------ */}
@@ -83,35 +104,22 @@ const PreviewServices = () => {
       {/* ------------------------------------------------------------------------------------------------ */}
       <Grid container>
         {/* 1 */}
+       
         <Grid item xs={12} display="flex" alignItems="center">
-          <CustomFormLabel htmlFor="bl-title" sx={{ mt: 0 }}>
-            Title
-          </CustomFormLabel>
+          <CustomFormLabel htmlFor="bl-description">Description</CustomFormLabel>
         </Grid>
         <Grid item xs={12}>
-          <CustomTextField
-            disabled
-            id="bl-title"
-            placeholder="John Deo"
-            fullWidth
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
+          <Paper variant="outlined">
+           <ReactQuill
+            readOnly
+            value={data.services}
+            onChange={(value) => setQuillText(value)}
+            placeholder="Description"
           />
+
+          </Paper>
         </Grid>
-        <Grid item xs={12} display="flex" alignItems="center">
-          <CustomFormLabel htmlFor="bl-message">Icon</CustomFormLabel>
-        </Grid>
-        {/*   
-          <Grid item xs={12}>
-            <CustomTextField id="bl-image" type="file" fullWidth onChange={handleChooseIcon} />
-         
-          </Grid> */}
-        <Grid item xs={12}>
-          {icon && icon.url && (
-            <img src={icon.url} width={200} height={200} style={{ objectFit: 'contain' }} />
-          )}
-        </Grid>
-        {/* 2 */}
+      
 
         {/* 5 */}
         <Grid item xs={12} display="flex" alignItems="center">
@@ -123,62 +131,12 @@ const PreviewServices = () => {
           
           </Grid> */}
         <Grid item xs={12}>
-          {serviceImage && serviceImage.url && (
-            <img src={serviceImage.url} width={200} height={200} style={{ objectFit: 'contain' }} />
-          )}
+        
+              <img src={`${API_URL}/${data.image.filename}`} width={200} height={200} style={{ objectFit: 'contain' }} />
+          
         </Grid>
 
-        <Grid item xs={12} display="flex" alignItems="center">
-          <CustomFormLabel htmlFor="bl-description">Description</CustomFormLabel>
-        </Grid>
-        <Grid item xs={12}>
-          <Paper variant="outlined">
-            <ReactQuill
-              readOnly
-              value={quillText}
-              onChange={(value) => setQuillText(value)}
-              placeholder="Description"
-            />
-          </Paper>
-        </Grid>
-
-        <Grid item xs={12} display="flex" alignItems="center">
-          <CustomFormLabel htmlFor="bl-accordion"></CustomFormLabel>
-        </Grid>
-
-        <Grid item xs={12} display="flex" alignItems="center">
-          <ParentCard title="Accordion Fields">
-            <Grid container sx={{ mt: -3 }}>
-              <Grid item xs={12} display="flex" alignItems="center">
-                <CustomFormLabel htmlFor="bl-accordion-title">Accordion Title</CustomFormLabel>
-              </Grid>
-              <Grid item xs={12}>
-                <CustomTextField
-                  disabled
-                  id="bl-accordion-title"
-                  placeholder="John Deo"
-                  fullWidth
-                  value={accordianTitle}
-                  onChange={(e) => setAccordianTitle(e.target.value)}
-                />
-              </Grid>
-
-              <Grid item xs={12} display="flex" alignItems="center">
-                <CustomFormLabel htmlFor="bl-description">Accordian Description</CustomFormLabel>
-              </Grid>
-              <Grid item xs={12}>
-                <Paper variant="outlined">
-                  <ReactQuill
-                    readOnly
-                    value={accordionDescription}
-                    onChange={(value) => setAccordianDescription(value)}
-                    placeholder="Description"
-                  />
-                </Paper>
-              </Grid>
-            </Grid>
-          </ParentCard>
-        </Grid>
+       
 
         <Grid item xs={12} mt={3}>
           <Button variant="contained" color="primary" onClick={handleSubmit}>

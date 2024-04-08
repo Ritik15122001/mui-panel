@@ -15,12 +15,14 @@ import CustomSelect from '../../forms/theme-elements/CustomSelect';
 import { addToFirebase, uploadImageToFirebase, readFirebase } from '../../../firebase';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import { API_URL,API_PATHS } from '../../../utils';
 
 const AddHomeForm = () => {
   const urlRef = useRef();
+  
   const [carouselImage, setCarouselImage] = useState('');
   const [carouselItemCount, setCarouselItemCount] = useState(0);
-
+  const [quillText, setQuillText] = useState('');
   useEffect(() => {
     const fetchCarouselItemCount = async () => {
       try {
@@ -37,53 +39,44 @@ const AddHomeForm = () => {
 
 
 
-  const handleChooseImage = async (e) => {
-    try {
-      if (carouselItemCount < 4) {
-        const imageURL = await uploadImageToFirebase('homeImage', e.target.files[0]);
-
-        setCarouselImage({
-          name: e.target.files[0].name,
-          type: e.target.files[0].type,
-          size: e.target.files[0].size,
-          url: imageURL,
-        });
-        setCarouselItemCount(count => count + 1);
-      } else {
-        alert('Maximum limit reached (4 items)');
-      }
-    } catch (err) {
-      console.log(err);
-    }
+  const handleChooseImage = (e) => {
+    const file = e.target.files[0];
+  console.log("image---->",file)
+  setCarouselImage(file);
   };
 
   const handleSubmit = () => {
-    const urlLink = urlRef.current.value;
+    const heading = urlRef.current.value;
 
-    if (!urlLink) {
+
+    if (!heading) {
       alert('fill required fields');
       return;
     }
+   
+   
 
-    if (carouselItemCount < 4) {
-      try {
-        const data = {
-          carouselImage,
-          imageLink: urlLink,
-        };
 
-        // console.log(data);
+    try {
+     
+      const formData = new FormData();
 
-        addToFirebase('home', data).then((res) => {
-          alert('Carousel added successfully');
-          (urlRef.current.value = ''), setCarouselImage('');
-          setCarouselItemCount(count => count + 1);
-        });
-      } catch (err) {
-        alert('Maximum limit reached (4 items)');
-      }
+      formData.append('heading',heading);
+      formData.append('subheading',quillText);
+      formData.append('image',carouselImage)
+
+      // console.log(data);
+
+      addToFirebase(API_PATHS.ADD_HEROIMG, formData).then((res) => {
+        alert('HeroImage added successfully');
+        heading.current.value = '';
+        setQuillText('');
+        setCarouselImage('');
+      });
+    } catch (err) {
+      alert('Error');
     }
-  }
+  };
 
 
   return (
@@ -95,12 +88,28 @@ const AddHomeForm = () => {
         {/* 1 */}
         <Grid item xs={12} display="flex" alignItems="center">
           <CustomFormLabel htmlFor="bl-title" sx={{ mt: 0 }}>
-            Link
+            Heading
           </CustomFormLabel>
         </Grid>
+        
         <Grid item xs={12}>
           <CustomTextField id="bl-title" placeholder="John Deo" fullWidth inputRef={urlRef} />
         </Grid>
+
+           <Grid item xs={12} display="flex" alignItems="center">
+          <CustomFormLabel htmlFor="bl-description">Description</CustomFormLabel>
+        </Grid>
+        <Grid item xs={12}>
+          <Paper variant="outlined">
+            <ReactQuill
+              value={quillText}
+              onChange={(value) => setQuillText(value)}
+              placeholder="Description"
+            />
+          </Paper>
+        </Grid>
+
+        
         {/* 2 */}
 
         {/* 3 */}
@@ -115,18 +124,12 @@ const AddHomeForm = () => {
         <Grid item xs={12}>
           <CustomTextField id="bl-image" type="file" fullWidth onChange={handleChooseImage} />
           {/* <Button onClick={async () => console.log(await uploadImageToFirebase(blogImage))}>
-            Upload
-          </Button> */}
+                Upload
+              </Button> */}
         </Grid>
         <Grid item xs={12}>
           {carouselImage && carouselImage.url && (
-            <img
-              src={carouselImage.url}
-              width={200}
-              height={200}
-              style={{ objectFit: 'contain' }}
-              loading="lazy"
-            />
+            <img src={carouselImage.url} width={200} height={200} style={{ objectFit: 'contain' }} />
           )}
         </Grid>
 

@@ -37,7 +37,7 @@ const Welcome = () => {
           variant="filled"
           sx={{ width: '100%', color: 'white' }}
         >
-          <AlertTitle>Welcome To Genuine Effect</AlertTitle>
+          <AlertTitle>Welcome To iNov8</AlertTitle>
         </Alert>
       </Snackbar>
     </React.Fragment>

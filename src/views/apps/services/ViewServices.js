@@ -44,6 +44,7 @@ import { Stack } from '@mui/system';
 import { readFirebase } from '../../../firebase';
 import { ModeEditOutlined, VisibilityOutlined } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
+import { API_PATHS,API_URL } from '../../../utils';
 
 function TablePaginationActions(props) {
   const theme = useTheme();
@@ -190,7 +191,7 @@ const ViewServices = () => {
     const del = rows.find(item => row.key === item.key)
     console.log(del)
 
-    removeFromFirebase(`services/${del.key}`).then((res) => {
+    removeFromFirebase(API_PATHS.ADD_Services+"/"+`${row._id}`).then((res) => {
       alert('Delete  successfully');
       valueDataBase()
     });
@@ -198,10 +199,10 @@ const ViewServices = () => {
   };
   const valueDataBase = async () => {
     try {
-      const result = await readFirebase('services');
+      const result = await readFirebase(API_PATHS.ADD_Services);
       // Use the result array here
       // console.log('result-->', result);
-      setRows(result);
+      setRows(result.data);
     } catch (error) {
       // Handle errors
       console.error(error);
@@ -233,28 +234,31 @@ const ViewServices = () => {
                   <TableCell>
                     <Typography variant="h6">Action</Typography>
                   </TableCell>
-                  <TableCell>
-                    <Typography variant="h6">Title</Typography>
-                  </TableCell>
-                  <TableCell>
+                
+                  {/* <TableCell>
                     <Typography variant="h6">Icon</Typography>
-                  </TableCell>
+                  </TableCell> */}
                   <TableCell>
                     <Typography variant="h6">Image</Typography>
                   </TableCell>
+
+
                   <TableCell>
+                    <Typography variant="h6">Services</Typography>
+                  </TableCell>
+                  {/* <TableCell>
                     <Typography variant="h6">Description</Typography>
-                  </TableCell>
-                  <TableCell>
+                  </TableCell> */}
+                  {/* <TableCell>
                     <Typography variant="h6">Accordian Title</Typography>
-                  </TableCell>
+                  </TableCell> */}
 
                   {/* <TableCell>
                     <Typography variant="h6">Date</Typography>
                   </TableCell> */}
-                  <TableCell>
+                  {/* <TableCell>
                     <Typography variant="h6">Accordian Description</Typography>
-                  </TableCell>
+                  </TableCell> */}
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -288,20 +292,24 @@ const ViewServices = () => {
                         </button>
                       </Typography>
                     </TableCell>
+
                     <TableCell>
-                      <Typography variant="h6">{row.title}</Typography>
+                      <Stack direction="row" spacing={1} alignItems="center">
+                        <Avatar src={`${API_URL}/${row.image.filename}`} alt={row.serviceImage} width="10" />
+                      </Stack>
                     </TableCell>
+
                     <TableCell>
+                    <Typography variant="h6" dangerouslySetInnerHTML={{ __html: row.services }} />;
+                      
+                    </TableCell>
+                    {/* <TableCell>
                       <Stack direction="row" spacing={2} alignItems="center">
                         <Avatar src={row.icon.url} alt={row.icon.name} width="30" />
                       </Stack>
-                    </TableCell>
-                    <TableCell>
-                      <Stack direction="row" spacing={2} alignItems="center">
-                        <Avatar src={row.serviceImage.url} alt={row.serviceImage.name} width="30" />
-                      </Stack>
-                    </TableCell>
-                    <TableCell>
+                    </TableCell> */}
+                 
+                    {/* <TableCell>
                       <Typography color="textSecondary" variant="h6" fontWeight="400">
                         <Button
                           className="btn button"
@@ -310,29 +318,10 @@ const ViewServices = () => {
                           View
                         </Button>
                       </Typography>
-                    </TableCell>
+                    </TableCell> */}
 
-                    <TableCell>
-                      <Typography color="textSecondary" variant="h6" fontWeight="400">
-                        {/* {row.accordionTitle} */}
-                        <Button
-                          className="btn button"
-                          onClick={() => handleDialog(row.accordionTitle)}
-                        >
-                          View
-                        </Button>
-                      </Typography>
-                    </TableCell>
-                    <TableCell>
-                      <Typography color="textSecondary" variant="h6" fontWeight="400">
-                        <Button
-                          className="btn button"
-                          onClick={() => handleDialog(row.accordianDes)}
-                        >
-                          View
-                        </Button>
-                      </Typography>
-                    </TableCell>
+              
+                 
 
                     {/* <TableCell>
                       <Typography variant="h6">{row.date}</Typography>

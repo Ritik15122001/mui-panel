@@ -17,6 +17,7 @@ import CustomFormLabel from '../../forms/theme-elements/CustomFormLabel';
 import CustomTextField from '../../forms/theme-elements/CustomTextField';
 import CustomSelect from '../../forms/theme-elements/CustomSelect';
 import ParentCard from '../../shared/ParentCard';
+import { API_PATHS } from '../../../utils';
 
 const AddServicesForm = () => {
   const titleRef = useRef();
@@ -41,96 +42,39 @@ const AddServicesForm = () => {
   //   });
   // };
 
-  const handleChooseImage = async (e) => {
-    try {
-      const imageURL = await uploadImageToFirebase('serviceImages', e.target.files[0]);
 
-      setServiceImage({
-        name: e.target.files[0].name,
-        type: e.target.files[0].type,
-        size: e.target.files[0].size,
-        url: imageURL,
-      });
-    } catch (err) {
-      console.log(err);
-    }
 
-    // console.log(e.target.files[0]);
-    // const imgUrl = e.target.files[0];
-    // const url = await getbase64(e.target.files[0]);
-    // setBlogImage({
-    //   name: e.target.files[0].name,
-    //   type: e.target.files[0].type,
-    //   size: e.target.files[0].size,
-    //   url,
-    // });
-    // setSelectedImage(URL.createObjectURL(e.target.files[0]));
-  };
-  const handleChooseIcon = async (e) => {
-    try {
-      const iconURL = await uploadImageToFirebase('serviceIcon', e.target.files[0]);
-
-      setIcon({
-        name: e.target.files[0].name,
-        type: e.target.files[0].type,
-        size: e.target.files[0].size,
-        url: iconURL,
-      });
-    } catch (err) {
-      console.log(err);
-    }
-
-    // console.log(e.target.files[0]);
-    // const imgUrl = e.target.files[0];
-    // const url = await getbase64(e.target.files[0]);
-    // setBlogImage({
-    //   name: e.target.files[0].name,
-    //   type: e.target.files[0].type,
-    //   size: e.target.files[0].size,
-    //   url,
-    // });
-    // setSelectedImage(URL.createObjectURL(e.target.files[0]));
+  const handleChooseImage = (e) => {
+    const file = e.target.files[0];
+  console.log("image---->",file)
+  setServiceImage(file);
   };
 
   const handleSubmit = () => {
-    const title = titleRef.current.value;
-    const accordionTitle = accordionTitleRef.current.value;
-    // const accordionDescription = accordionDescriptionRef.current.value;
-
-    if (!title || !accordionTitle) {
-      alert('fill required fields');
-      return;
-    }
-
+  
     try {
-      const data = {
-        title,
-        serviceImage,
-        icon,
-        description: quillText,
-        accordianDes: accordionDescription,
-        accordionTitle,
-        // accordionDescription,
-      };
+    
+      const formData = new FormData();
+      
+      // Extracting text content from HTML and splitting into array
+   
+      
+      // Adding image to formData
+      formData.append('image', serviceImage);
+      formData.append('services',quillText)
 
-      // console.log(data);
-
-      addToFirebase('services', data).then((res) => {
-        alert('Service added successfully');
-        titleRef.current.value = '';
-        accordionTitleRef.current.value = '';
-        // accordionDescriptionRef.current.value = '';
-
+      // Sending formData to backend
+      addToFirebase(API_PATHS.ADD_Services, formData).then((res) => {
+        alert('Services added successfully');
         setQuillText('');
-        setAccordianDescription('');
-        setCategory('');
-        setBlogImage('');
-        setIcon('');
+        setServiceImage('');
       });
     } catch (err) {
       alert('Error');
     }
-  };
+};
+
+
   return (
     <div>
       {/* ------------------------------------------------------------------------------------------------ */}
@@ -138,7 +82,7 @@ const AddServicesForm = () => {
       {/* ------------------------------------------------------------------------------------------------ */}
       <Grid container>
         {/* 1 */}
-        <Grid item xs={12} display="flex" alignItems="center">
+        {/* <Grid item xs={12} display="flex" alignItems="center">
           <CustomFormLabel htmlFor="bl-title" sx={{ mt: 0 }}>
             Title
           </CustomFormLabel>
@@ -148,19 +92,19 @@ const AddServicesForm = () => {
         </Grid>
         <Grid item xs={12} display="flex" alignItems="center">
           <CustomFormLabel htmlFor="bl-message">Icon</CustomFormLabel>
-        </Grid>
+        </Grid> */}
 
-        <Grid item xs={12}>
+        {/* <Grid item xs={12}>
           <CustomTextField id="bl-image" type="file" fullWidth onChange={handleChooseIcon} />
-          {/* <Button onClick={async () => console.log(await uploadImageToFirebase(blogImage))}>
+          <Button onClick={async () => console.log(await uploadImageToFirebase(blogImage))}>
             Upload
-          </Button> */}
+          </Button>
         </Grid>
         <Grid item xs={12}>
           {icon && icon.url && (
             <img src={icon.url} width={200} height={200} style={{ objectFit: 'contain' }} />
           )}
-        </Grid>
+        </Grid> */}
         {/* 2 */}
 
         {/* 5 */}
@@ -181,7 +125,7 @@ const AddServicesForm = () => {
         </Grid>
 
         <Grid item xs={12} display="flex" alignItems="center">
-          <CustomFormLabel htmlFor="bl-description">Description</CustomFormLabel>
+          <CustomFormLabel htmlFor="bl-description">Services</CustomFormLabel>
         </Grid>
         <Grid item xs={12}>
           <Paper variant="outlined">
@@ -193,7 +137,7 @@ const AddServicesForm = () => {
           </Paper>
         </Grid>
 
-        <Grid item xs={12} display="flex" alignItems="center">
+        {/* <Grid item xs={12} display="flex" alignItems="center">
           <CustomFormLabel htmlFor="bl-accordion"></CustomFormLabel>
         </Grid>
 
@@ -226,7 +170,7 @@ const AddServicesForm = () => {
               </Grid>
             </Grid>
           </ParentCard>
-        </Grid>
+        </Grid> */}
 
         <Grid item xs={12} mt={3}>
           <Button variant="contained" color="primary" onClick={handleSubmit}>

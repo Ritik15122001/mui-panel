@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { initializeApp } from 'firebase/app';
 import { child, getDatabase, push, ref, remove, update, onValue } from 'firebase/database';
 import { getDownloadURL, getStorage, listAll, uploadBytes } from 'firebase/storage';
@@ -34,44 +35,25 @@ const db = getDatabase(app);
 const storage = getStorage(app);
 
 export const addToFirebase = async (path, data) => {
-  return push(ref(db, path), data);
+  const response = await axios.post(path,data)
+  return response;
 };
 export const removeFromFirebase = async (path) => {
-  return remove(ref(db, path));
+   axios.delete(path)
 };
 
-export const updateInFirebase = async (path, data) => {
-  return update(ref(db, path), data);
+export const updateInFirebase = async (path,data) => {
+   await axios.patch(path,data)
 };
 
-export const readFirebase = (path) => {
-  const dataRef = ref(db, path);
+export const readFirebase = async (path) => {
+  const response = await axios.get(path)
+  return response;
+};
 
-  return new Promise((resolve, reject) => {
-    onValue(
-      dataRef,
-      (snapshot) => {
-        const data = snapshot.val();
-        if (data) {
-          const dataKeys = Object.keys(data);
-          const dataArray = dataKeys.map((item) => ({
-            key: item,
-            ...data[item],
-          }));
-          // console.log('dataArray-->', dataArray);
-          resolve(dataArray);
-        } else {
-          // Handle the case where there is no data
-          resolve([]);
-        }
-      },
-      (error) => {
-        // Handle any errors that occur.
-        console.error('Error reading Firebase data:', error);
-        reject(error);
-      },
-    );
-  });
+export const readFirebasebyId = async (path) => {
+  const response = await axios.get(path)
+  return response;
 };
 
 export const uploadImageToFirebase = async (pathName, uploadedImage) => {

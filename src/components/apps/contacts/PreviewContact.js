@@ -19,6 +19,9 @@ import CustomTextField from '../../forms/theme-elements/CustomTextField';
 import CustomSelect from '../../forms/theme-elements/CustomSelect';
 import ParentCard from '../../shared/ParentCard';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { API_PATHS } from '../../../utils';
+import { readFirebasebyId } from '../../../firebase';
+import { API_URL } from '../../../utils';
 
 const PreviewContact = () => {
   // const titleRef = useRef();
@@ -28,10 +31,46 @@ const PreviewContact = () => {
   const rows = location.state.row;
   const [title, setTitle] = useState(rows.title);
   const [quillText, setQuillText] = useState(rows.description);
+  const [data, setData] = useState({
+    name: "",
+    email: "",
+    phoneNumber: "",
+    subject: "",
+    message: ""
+});
 
   const handleSubmit = () => {
     navigate('/apps/contacts/view');
   };
+
+  const contactid = rows._id
+
+  const handleData = async (contactid) => {
+    // console.log("rowid---->"+contactid);
+
+    try {
+      const result = await readFirebasebyId(API_PATHS.ADD_Contact + "/" + contactid);
+      setData({
+        name: result.data.name,
+        email: result.data.email,
+        phoneNumber: result.data.phoneNumber,
+        subject:result.data.subject,
+        message:result.data.message
+        // Set other fields as needed
+    });
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+   
+  };
+
+
+  useEffect(() => {
+    handleData(contactid);
+  }, []);
+
+
+
   return (
     <div>
       {/* ------------------------------------------------------------------------------------------------ */}
@@ -41,7 +80,7 @@ const PreviewContact = () => {
         {/* 1 */}
         <Grid item xs={12} display="flex" alignItems="center">
           <CustomFormLabel htmlFor="bl-title" sx={{ mt: 0 }}>
-            Title
+            Name
           </CustomFormLabel>
         </Grid>
         <Grid item xs={12}>
@@ -52,23 +91,91 @@ const PreviewContact = () => {
             fullWidth
             onChange={(e) => setTitle(e.target.value)}
             // inputRef={titleRef}
-            value={title}
+            value={data.name}
           />
         </Grid>
 
         <Grid item xs={12} display="flex" alignItems="center">
+          <CustomFormLabel htmlFor="bl-title" sx={{ mt: 0 }}>
+            email
+          </CustomFormLabel>
+        </Grid>
+        <Grid item xs={12}>
+          <CustomTextField
+            disabled
+            id="bl-title"
+            placeholder="John Deo"
+            fullWidth
+            onChange={(e) => setTitle(e.target.value)}
+            // inputRef={titleRef}
+            value={data.email}
+          />
+        </Grid>
+
+        <Grid item xs={12} display="flex" alignItems="center">
+          <CustomFormLabel htmlFor="bl-title" sx={{ mt: 0 }}>
+            PhoneNumber
+          </CustomFormLabel>
+        </Grid>
+        <Grid item xs={12}>
+          <CustomTextField
+            disabled
+            id="bl-title"
+            placeholder="John Deo"
+            fullWidth
+            onChange={(e) => setTitle(e.target.value)}
+            // inputRef={titleRef}
+            value={data.phoneNumber}
+          />
+        </Grid>
+
+        <Grid item xs={12} display="flex" alignItems="center">
+          <CustomFormLabel htmlFor="bl-title" sx={{ mt: 0 }}>
+            Subject
+          </CustomFormLabel>
+        </Grid>
+        <Grid item xs={12}>
+          <CustomTextField
+            disabled
+            id="bl-title"
+            placeholder="John Deo"
+            fullWidth
+            onChange={(e) => setTitle(e.target.value)}
+            // inputRef={titleRef}
+            value={data.subject}
+          />
+        </Grid>
+
+        <Grid item xs={12} display="flex" alignItems="center">
+          <CustomFormLabel htmlFor="bl-title" sx={{ mt: 0 }}>
+            Message
+          </CustomFormLabel>
+        </Grid>
+        <Grid item xs={12}>
+          <CustomTextField
+            disabled
+            id="bl-title"
+            placeholder="John Deo"
+            fullWidth
+            onChange={(e) => setTitle(e.target.value)}
+            // inputRef={titleRef}
+            value={data.message}
+          />
+        </Grid>
+
+        {/* <Grid item xs={12} display="flex" alignItems="center">
           <CustomFormLabel htmlFor="bl-description">Description</CustomFormLabel>
         </Grid>
         <Grid item xs={12}>
           <Paper variant="outlined">
             <ReactQuill
               readOnly
-              value={quillText}
+              value={data.subheading}
               onChange={(value) => setQuillText(value)}
               placeholder="Description"
             />
           </Paper>
-        </Grid>
+        </Grid> */}
 
         <Grid item xs={12} mt={3}>
           <Button variant="contained" color="primary" onClick={handleSubmit}>

@@ -18,9 +18,11 @@ import CustomFormLabel from '../../forms/theme-elements/CustomFormLabel';
 import CustomTextField from '../../forms/theme-elements/CustomTextField';
 import CustomSelect from '../../forms/theme-elements/CustomSelect';
 import ParentCard from '../../shared/ParentCard';
+import { API_PATHS } from '../../../utils';
+import { array } from 'prop-types';
 
 const AddWorkForm = () => {
-  const titleRef = useRef();
+  const headingRef = useRef();
   // const [category, setCategory] = useState(1);
   const [workImage, setWorkImage] = useState('');
   const [workDate, setWorkDate] = useState('');
@@ -48,77 +50,54 @@ const AddWorkForm = () => {
   //   });
   // };
 
-  const handleChooseImage = async (e) => {
-    try {
-      const imageURL = await uploadImageToFirebase('workImages', e.target.files[0]);
 
-      setWorkImage({
-        name: e.target.files[0].name,
-        type: e.target.files[0].type,
-        size: e.target.files[0].size,
-        url: imageURL,
-      });
-    } catch (err) {
-      console.log(err);
-    }
 
-    // console.log(e.target.files[0]);
-    // const imgUrl = e.target.files[0];
-    // const url = await getbase64(e.target.files[0]);
-    // setBlogImage({
-    //   name: e.target.files[0].name,
-    //   type: e.target.files[0].type,
-    //   size: e.target.files[0].size,
-    //   url,
-    // });
-    // setSelectedImage(URL.createObjectURL(e.target.files[0]));
+
+// console.log("services---->"+data[0])
+
+
+
+
+  const handleChooseImage = (e) => {
+    const file = e.target.files[0];
+  console.log("image---->",file)
+    setWorkImage(file);
   };
 
-  const handleSubmit = () => {
-    const title = titleRef.current.value;
-    const author = authorRef.current.value;
-    const place = placeRef.current.value;
-    const clientName = clientNameRef.current.value;
-    const projectCategory = projectCategoryRef.current.value;
-    // const accordionDescription = accordionDescriptionRef.current.value;
 
-    if (!title) {
+  const handleSubmit = () => {
+    const heading = headingRef.current.value;
+
+
+    if (!heading) {
       alert('fill required fields');
       return;
     }
+   
+   
+
 
     try {
-      const data = {
-        title,
-        workImage,
-        projectDescription: quillText,
-        clientName,
-        category: projectCategory,
-        author,
-        place,
-        workDate,
-      };
+     
+      const formData = new FormData();
+
+      formData.append('heading',heading);
+      formData.append('subheading',quillText);
+      formData.append('image',workImage)
 
       // console.log(data);
 
-      addToFirebase('works', data).then((res) => {
+      addToFirebase(API_PATHS.ADD_work, formData).then((res) => {
         alert('Work added successfully');
-        titleRef.current.value = '';
-        clientNameRef.current.value = '';
-        projectCategoryRef.current.value = '';
-        authorRef.current.value = '';
-        placeRef.current.value = '';
-        // tag.current.value = '';
-
+        heading.current.value = '';
         setQuillText('');
-        // setCategory('');
         setWorkImage('');
-        setWorkDate('');
       });
     } catch (err) {
       alert('Error');
     }
   };
+
   return (
     <div>
       {/* ------------------------------------------------------------------------------------------------ */}
@@ -128,11 +107,11 @@ const AddWorkForm = () => {
         {/* 1 */}
         <Grid item xs={12} display="flex" alignItems="center">
           <CustomFormLabel htmlFor="bl-title" sx={{ mt: 0 }}>
-            Title
+            Heading
           </CustomFormLabel>
         </Grid>
         <Grid item xs={12}>
-          <CustomTextField id="bl-title" placeholder="John Deo" fullWidth inputRef={titleRef} />
+          <CustomTextField id="bl-title" placeholder="John Deo" fullWidth inputRef={headingRef} />
         </Grid>
         {/* 2 */}
         {/* <Grid item xs={12} alignItems="center">
@@ -171,19 +150,19 @@ const AddWorkForm = () => {
           )}
         </Grid>
         <Grid item xs={12} display="flex" alignItems="center">
-          <CustomFormLabel htmlFor="bl-description">Description</CustomFormLabel>
+          <CustomFormLabel htmlFor="bl-description">Subheading</CustomFormLabel>
         </Grid>
         <Grid item xs={12}>
           <Paper variant="outlined">
             <ReactQuill
               value={quillText}
               onChange={(value) => setQuillText(value)}
-              placeholder="Description"
+              placeholder="SubHeading"
             />
           </Paper>
         </Grid>
 
-        <Grid item xs={12} display="flex" alignItems="center">
+        {/* <Grid item xs={12} display="flex" alignItems="center">
           <CustomFormLabel htmlFor="bl-accordion"></CustomFormLabel>
         </Grid>
 
@@ -262,7 +241,7 @@ const AddWorkForm = () => {
               </Grid>
             </Grid>
           </ParentCard>
-        </Grid>
+        </Grid> */}
 
         <Grid item xs={12} mt={3}>
           <Button variant="contained" color="primary" onClick={handleSubmit}>

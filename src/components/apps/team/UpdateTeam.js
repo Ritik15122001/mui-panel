@@ -7,7 +7,7 @@ import {
   Autocomplete,
   TextField,
 } from '@mui/material';
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState,useEffect } from 'react';
 
 import { addToFirebase, updateInFirebase, uploadImageToFirebase } from '../../../firebase';
 import ReactQuill from 'react-quill';
@@ -19,6 +19,8 @@ import CustomTextField from '../../forms/theme-elements/CustomTextField';
 import CustomSelect from '../../forms/theme-elements/CustomSelect';
 import ParentCard from '../../shared/ParentCard';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { readFirebasebyId } from '../../../firebase';
+import { API_PATHS,API_URL } from '../../../utils';
 
 const UpdateTeam = () => {
   const location = useLocation();
@@ -32,41 +34,112 @@ const UpdateTeam = () => {
   // const desginationRef = useRef();
   const [desgination, setDesgination] = useState(rows.desgination);
 
-  const handleChooseImage = async (e) => {
-    try {
-      const imageURL = await uploadImageToFirebase('teamImages', e.target.files[0]);
+  const [data, setData] = useState({
+    MemberName: "",
+    designation: "",
+    image: "",
+    facebook:"",
+    twitter:"",
+    instagram:""
+});
 
-      setTeamImage({
-        name: e.target.files[0].name,
-        type: e.target.files[0].type,
-        size: e.target.files[0].size,
-        url: imageURL,
-      });
-    } catch (err) {
-      console.log(err);
+
+const handleChangeName = (e) => {
+  setData({
+    ...data,
+    MemberName: e.target.value
+  });
+};
+
+const handleChangeDesignation = (e) => {
+  setData({
+    ...data,
+    designation: e.target.value
+  });
+};
+
+const handleChangefacebook = (e) => {
+  setData({
+    ...data,
+    facebook: e.target.value
+  });
+};
+
+const handleChangeinstagram = (e) => {
+  setData({
+    ...data,
+    instagram: e.target.value
+  });
+};
+
+const handleChangetwitter = (e) => {
+  setData({
+    ...data,
+    twitter: e.target.value
+  });
+};
+
+
+
+const handleChooseImage = (e) => {
+  const file = e.target.files[0];
+console.log("image---->",file)
+// setCarouselImage(file);
+setData(prev => ({...prev,
+  image:file
+})); 
+
+};
+
+const heroimageid = rows._id;
+  const handleData = async (heroimageid) => {
+    // console.log("rowid---->"+heroimageid);
+
+    try {
+      const result = await readFirebasebyId(API_PATHS.ADD_TEAM + "/" + heroimageid);
+      setData({
+        MemberName: result.data.MemberName,
+        designation: result.data.designation,
+        image: result.data.image,
+        facebook:result.data.facebook,
+        twitter:result.data.twitter,
+        instagram:result.data.instagram,
+    });
+    } catch (error) {
+      console.error("Error fetching data:", error);
     }
   };
 
+
+  useEffect(() => {
+    handleData(heroimageid);
+  }, []);
+
+
   const handleSubmit = () => {
     try {
-      const data = {
-        name: title,
-        teamImage,
-        description: quillText,
-        desgination,
-        link,
-      };
+      const formData = new FormData();
+
+      formData.append('MemberName',data.MemberName);
+      formData.append('designation',data.designation);
+      formData.append('image',data.image)
+      formData.append('facebook',data.facebook)
+      formData.append('instagram',data.instagram)
+      formData.append('twitter',data.twitter)
+
 
       // console.log(data);
 
-      updateInFirebase(`team/${rows.key}`, data).then((res) => {
-        alert('Team updated successfully');
+      updateInFirebase(API_PATHS.ADD_TEAM+"/"+`${heroimageid}`,formData).then((res) => {
+        alert('Carousel updated successfully');
         navigate('/apps/team/view');
       });
     } catch (err) {
       alert('Error');
     }
   };
+
+
   return (
     <div>
       {/* ------------------------------------------------------------------------------------------------ */}
@@ -84,8 +157,8 @@ const UpdateTeam = () => {
             id="bl-title"
             placeholder="John Deo"
             fullWidth
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            value={data.MemberName}
+            onChange={(e) => handleChangeName(e)}
           />
         </Grid>
         {/* 2 */}
@@ -102,8 +175,8 @@ const UpdateTeam = () => {
                 </Button> */}
         </Grid>
         <Grid item xs={12}>
-          {teamImage && teamImage.url && (
-            <img src={teamImage.url} width={200} height={200} style={{ objectFit: 'contain' }} />
+          {data.image  && (
+            <img   src={`${API_URL}/${data.image.filename}`} width={200} height={200} style={{ objectFit: 'contain' }} />
           )}
         </Grid>
         <Grid item xs={12} display="flex" alignItems="center">
@@ -117,11 +190,11 @@ const UpdateTeam = () => {
             //   multiline
             //   rows={4}
             //   variant="outlined"
-            value={desgination}
-            onChange={(e) => setDesgination(e.target.value)}
+            value={data.designation}
+            onChange={(e) => handleChangeDesignation(e)}
           />
         </Grid>
-        <Grid item xs={12} display="flex" alignItems="center">
+        {/* <Grid item xs={12} display="flex" alignItems="center">
           <CustomFormLabel htmlFor="bl-description">Description</CustomFormLabel>
         </Grid>
         <Grid item xs={12}>
@@ -132,19 +205,49 @@ const UpdateTeam = () => {
               placeholder="Description"
             />
           </Paper>
-        </Grid>
+        </Grid> */}
         <Grid item xs={12} display="flex" alignItems="center">
           <CustomFormLabel htmlFor="bl-title" sx={{ mt: 0 }}>
-            LinkedIn Link
+            Facebook Link
           </CustomFormLabel>
         </Grid>
         <Grid item xs={12}>
           <CustomTextField
-            value={link}
+            value={data.facebook}
             id="bl-title"
             placeholder="John Deo"
             fullWidth
-            onChange={(e) => setLink(e.target.value)}
+            onChange={(e) => handleChangefacebook(e)}
+          />
+        </Grid>
+
+        <Grid item xs={12} display="flex" alignItems="center">
+          <CustomFormLabel htmlFor="bl-title" sx={{ mt: 0 }}>
+            Instagram Link
+          </CustomFormLabel>
+        </Grid>
+        <Grid item xs={12}>
+          <CustomTextField
+            value={data.instagram}
+            id="bl-title"
+            placeholder="John Deo"
+            fullWidth
+            onChange={(e) => handleChangeinstagram(e)}
+          />
+        </Grid>
+
+        <Grid item xs={12} display="flex" alignItems="center">
+          <CustomFormLabel htmlFor="bl-title" sx={{ mt: 0 }}>
+            Twitter Link
+          </CustomFormLabel>
+        </Grid>
+        <Grid item xs={12}>
+          <CustomTextField
+            value={data.twitter}
+            id="bl-title"
+            placeholder="John Deo"
+            fullWidth
+            onChange={(e) => handleChangetwitter(e)}
           />
         </Grid>
 
